@@ -1,0 +1,79 @@
+C************************************************************************************************************************************************
+	subroutine slnpdmodif(a,b,n,nx)
+	implicit none
+	integer n1,n,k,k1,j,l,nx,i,e,f
+	real*8 c,a(nx,nx),b(nx),d
+
+
+c      do 999 e=1,84
+c	do 999 f=1,84
+c999	write(*,*) 'a(',e,',',f,') = ',a(e,f),'========'
+
+      n1=n-1
+	write(*,*) 'n1 = ',n1
+      do 100 k=1,n1
+		k1=k+1
+		c=a(k,k) !valor da diagonal de A.
+		if (dabs(c)-0.000001)1,1,3
+
+  1		do 7 j=k1,n
+			if (dabs(a(j,k))-0.000001)7,7,5
+  5			do 6 l=k,n
+				c=a(k,l)
+				a(k,l)=a(j,l)
+  6			a(j,l)=c
+			c=b(k)
+			b(k)=b(j)
+			b(j)=c
+			c=a(k,k)
+			go to 3
+  7		continue
+  8		write(6,2) k
+  2		format('**** singularity in row',i5)
+		d=0.
+		go to 300
+
+  3		c=a(k,k)
+		
+		do 4 j=k1,n
+		a(k,j)=a(k,j)/c
+c		write(*,*) 'a(',k,',',j,') = ',a(k,j)
+
+		b(k)=b(k)/c
+		
+		do 10 i=1,n
+c		write(*,*) 'ja passou daqui slnpd 4 ============='
+			c=a(i,k)
+			do 9 j=1,n
+c			write(*,*) 'ja passou daqui slnpd 8',k,';',i,';',j,';'
+			write(*,*) 'c = ',c
+			!write(*,*) 'a(k=',k,',j=',j,') = ',a(k,j)
+			!write(*,*) 'a(i=',i,',j=',j,') = ',a(k,j)
+  9			a(i,j)=a(i,j)-c*a(k,j)
+ 10		b(i)=b(i)-c*b(k)
+		pause
+c		write(*,*) 'ja passou daqui slnpd 9'
+100	continue
+
+c	write(*,*) 'ja passou daqui slnpd 5'
+
+      if (dabs(a(n,n))-0.000001)8,8,101
+  
+c	write(*,*) 'ja passou daqui slnpd 6'
+101   b(n)=b(n)/a(n,n)
+
+      do 200 l=1,n1
+		write(*,*) 'ja passou daqui slnpd 7'
+		k=n-l
+		k1=k+1
+      
+		do 200 j=k1,n
+200   b(k)=b(k)-a(k,j)*b(j)
+
+      d=1.
+      do 250 i=1,n
+250   d=d*a(i,i)
+300   return
+	write(*,*) 'ja passou daqui slnpd 5'
+      end
+
