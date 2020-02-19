@@ -51,10 +51,10 @@ ALL : "$(OUTDIR)\LuansemRIM.exe"
 
 CLEAN : 
 	-@erase ".\LuansemRIM.exe"
+	-@erase ".\LuansemRIM.obj"
 	-@erase ".\ABulcao.obj"
 	-@erase ".\LeituraeEscrita.obj"
-	-@erase ".\Resources.obj"
-	-@erase ".\LuansemRIM.obj"
+	-@erase ".\Resources_Gauss40.obj"
 
 # ADD BASE F90 /Ox /c /nologo
 # ADD F90 /Ox /c /nologo
@@ -72,10 +72,10 @@ LINK32=link.exe
 LINK32_FLAGS=kernel32.lib /nologo /subsystem:console /incremental:no\
  /pdb:"$(OUTDIR)/LuansemRIM.pdb" /machine:I386 /out:"$(OUTDIR)/LuansemRIM.exe" 
 LINK32_OBJS= \
+	"$(INTDIR)/LuansemRIM.obj" \
 	"$(INTDIR)/ABulcao.obj" \
 	"$(INTDIR)/LeituraeEscrita.obj" \
-	"$(INTDIR)/Resources.obj" \
-	"$(INTDIR)/LuansemRIM.obj"
+	"$(INTDIR)/Resources_Gauss40.obj"
 
 "$(OUTDIR)\LuansemRIM.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -95,10 +95,10 @@ ALL : "$(OUTDIR)\LuansemRIM.exe"
 
 CLEAN : 
 	-@erase ".\LuansemRIM.exe"
+	-@erase ".\LuansemRIM.obj"
 	-@erase ".\ABulcao.obj"
 	-@erase ".\LeituraeEscrita.obj"
-	-@erase ".\Resources.obj"
-	-@erase ".\LuansemRIM.obj"
+	-@erase ".\Resources_Gauss40.obj"
 	-@erase ".\LuansemRIM.ilk"
 	-@erase ".\LuansemRIM.pdb"
 
@@ -119,10 +119,10 @@ LINK32_FLAGS=kernel32.lib /nologo /subsystem:console /incremental:yes\
  /pdb:"$(OUTDIR)/LuansemRIM.pdb" /debug /machine:I386\
  /out:"$(OUTDIR)/LuansemRIM.exe" 
 LINK32_OBJS= \
+	"$(INTDIR)/LuansemRIM.obj" \
 	"$(INTDIR)/ABulcao.obj" \
 	"$(INTDIR)/LeituraeEscrita.obj" \
-	"$(INTDIR)/Resources.obj" \
-	"$(INTDIR)/LuansemRIM.obj"
+	"$(INTDIR)/Resources_Gauss40.obj"
 
 "$(OUTDIR)\LuansemRIM.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -155,15 +155,6 @@ LINK32_OBJS= \
 ################################################################################
 # Begin Source File
 
-SOURCE=.\Resources.f
-
-"$(INTDIR)\Resources.obj" : $(SOURCE) "$(INTDIR)"
-
-
-# End Source File
-################################################################################
-# Begin Source File
-
 SOURCE=.\LeituraeEscrita.f
 
 "$(INTDIR)\LeituraeEscrita.obj" : $(SOURCE) "$(INTDIR)"
@@ -185,6 +176,15 @@ SOURCE=.\ABulcao.f
 SOURCE=.\LuansemRIM.f
 
 "$(INTDIR)\LuansemRIM.obj" : $(SOURCE) "$(INTDIR)"
+
+
+# End Source File
+################################################################################
+# Begin Source File
+
+SOURCE=.\Resources_Gauss40.f
+
+"$(INTDIR)\Resources_Gauss40.obj" : $(SOURCE) "$(INTDIR)"
 
 
 # End Source File
