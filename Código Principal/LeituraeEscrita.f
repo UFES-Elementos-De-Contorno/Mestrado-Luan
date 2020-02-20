@@ -1,6 +1,6 @@
       !IMPRESSÃO DO RESULTADO
       
-      subroutine output(x,y,fi,dfi,nx,fr)
+      subroutine output(x,y,fi,dfi,nx)
 	implicit none
       common ne,np,l,lec,imp,npi,nt
       real*8 fr,maiorAnalitico

@@ -1,20 +1,24 @@
       PROGRAM MAIN
 C
 C	PROGRAMA COM ELEMENTOS LINEARES PARA INTERPOLAÇÃO DO PROBLEMA DE HELMHOTZ
-C	VERSÃO COM CALCULO DE NOVA ESTRATÉGIA SEM TERMO REGULARIZADOR MECIC
-C     USAM-SE NOVAS FUNÇOES, A SOLUÇÃO FUNDAMENTAL E O TENSOR DE GALERKIN
-C     PROBLEMA DE RESPOSTA COM SOLUÇÃO ANALITICA IMPLEMENTADA 
+C	 VERSÃO COM CALCULO DE NOVA ESTRATÉGIA SEM TERMO REGULARIZADOR	MECIC
+C     USAM-SE NOVAS FUNÇOES, A SOL FUNDAMENTAL E O TENSOR DE GALERKIN
+C      PROBLEMA DE RESPOSTA COM SOL ANALITICA IMPLEMENTADA 
       
 	IMPLICIT NONE
       COMMON NE,NP,L,LEC,IMP,NPI,NT
 	INTEGER NX,LEC,IMP
 	PARAMETER (NX=2000)
-	INTEGER NOP(NX,3),KODE(NX),IDUP(NX)
-	INTEGER NE,NP,L,NPI,NT,PRINTE
- 	REAL*8 X(NX),Y(NX),G(NX,NX),H(NX,NX)
-	REAL*8 XXC(NX),YYC(NX),FI(NX),DFI(NX)
-	REAL*8 A(NX,NX),B(NX,NX),XX(NX),YY(NX)
-	CHARACTER ARQENT*20
+ 	INTEGER CONT_UPRES,CONT_QPRES,CONT_INTF,NUM(NX),NUM_2(NX)
+	INTEGER NOP(NX,3),KODE(NX),LOCC(NX),IDUP(NX),NE,NP,L,NPI,NT,PRINTE
+ 	REAL*8 X(NX),Y(NX),G(NX,NX),FI(NX),DFI(NX),XXC(NX)
+	REAL*8 YYC(NX),SOL(NX),H(NX,NX),DSOLX(NX),DSOLY(NX)
+	REAL*8 A(NX,NX),B(NX,NX),CB(NX),XX(NX),YY(NX),D,DIST
+	REAL*8 TEMPO,CALCULA_TEMPO,FR
+	CHARACTER SAI*20,TEMPO1*10,TEMPO2*10,ARQENT*20
+      INTEGER Z
+      INTEGER*4 DATE_TIME(8)
+      CHARACTER*8 TIMENOW(3)
 	
 	!NX EH A VARIAVEL QUE DEFINE O TAMANHO DAS 
 	!MATRIZES A SEREM CALCULADAS DENTRO DO CODIGO
@@ -31,7 +35,7 @@ C     PROBLEMA DE RESPOSTA COM SOLUÇÃO ANALITICA IMPLEMENTADA
 C      !DIGITE A MALHA QUE SERÁ UTILIZADA														  !*
 C	 !NOME DA MATRIZ UTILIZADA 	         !PROBLEMA ENCONTRADO								  !*
 C      ARQENT = '3249ENG.TXT'		         !													  !*
-C      ARQENT = '3249MEM.TXT'		         !													  !*
+      ARQENT = '3249MEM.TXT'		         !													  !*
 C      ARQENT = '3264.TXT'		         !													  !*
 C      ARQENT = '3264ENG.TXT'		         !													  !*
 C      ARQENT = '3264MEM.TXT'			     !													  !*
@@ -44,7 +48,7 @@ C      ARQENT = '8480MEM.TXT'			     !													  !*
 C      ARQENT = '16480ENG.TXT'		     !													  !*
 C      ARQENT = '84144.TXT'			     !													  !*
 C      ARQENT = '84144ENG.TXT'		     !													  !*
-      ARQENT = '84144MEM.TXT'			 !                                                    !*							
+C      ARQENT = '84144MEM.TXT'			 !                                                    !*							
 C      ARQENT = '160484.TXT'               !ERRO DE MATRIZ SINGULAR							  !*
 C      ARQENT = '160484MEMB.TXT'           !NAO FINALIZA.										  !*
 C      ARQENT = '164144ENG.TXT'            !													  !*
@@ -55,45 +59,39 @@ C      ARQENT = '320324.TXT'		         !													  !*
 C      ARQENT = '320576.TXT'               !ERRO DE MATRIZ SINGULAR							  !* 	
 !*************************************************************************************************
 
+	!CALCULO DO TEMPO DE PROCESSAMENTO%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+      FR = 2.0 !NAO ESTA SENDO UTILIZADO, POIS SE CALCULAVA OMEGA A PARTIR DESTE
+			 !AGORA OMEGA ESTÁ TENDO VALOR ATRIBUIDO DE ZERO, E ESTE NAO FOI 
+			 !APAGADO PARA EVITAR PROBLEMAS NO CODIGO.
 
+	!WRITE(*,'(A\)')' INFORME NOME DO ARQUIVO DE ENTRADA-->'
+      !READ(*,'(A20)')ARQENT
+
+!*************************************************************************************************
       
-!*************************************************************************************************
-!*******ABRE ARQUIVO ESPECIFICADO ANTERIORMENTE E INSERE EM INPUT, ESCREVE DADOS DE ENTRADA*******
-      WRITE(*,*) 'ARQUIVO DE ENTRADA ===> ', ARQENT											  !*
-	WRITE(*,*) ''								 											  !*
-      OPEN(LEC,FILE=ARQENT)																	  !*
-      																						  !*
-      CALL INPUT(XXC,YYC,X,Y,KODE,FI,NOP,IDUP,NX,ARQENT)										  !*
-      NT=NP+NPI 																				  !*
-	WRITE (*,*) 'NP = ',NP																	  !*
-	WRITE (*,*) 'NPI = ',NPI 																  !*
-	WRITE (*,*) 'NT = ',NT 																	  !*
- 																							  !*
-!*************************************************************************************************
+C      CALL DATE_AND_TIME(TIMENOW(1), TIMENOW(2), TIMENOW(3), DATE_TIME)
+      WRITE(*,*) 'ARQUIVO DE ENTRADA ===> ', ARQENT
+C      WRITE(*,*) 'ARQUIVO DE SAIDA   ===> ',FR,'W',TIMENOW(1),"-"
+C	*,DATE_TIME(5),"-",DATE_TIME(6),"-",DATE_TIME(7),"-",ARQENT
+      OPEN(LEC,FILE=ARQENT)
+      
+      CALL INPUT(XXC,YYC,X,Y,KODE,FI,NOP,LOCC,IDUP,NX,SAI,ARQENT,FR)
+      NT=NP+NPI 
+	WRITE (*,*) 'NP = ',NP
+	WRITE (*,*) 'NPI = ',NPI 
+	WRITE (*,*) 'NT = ',NT 
+ 
+      !CALL DATE_AND_TIME(TIME=TEMPO1)
 
-      !*****FUNÇÃO PARA PEGAR TEMPO INICIAL DO CÓDIGO
-	!CALL DATE_AND_TIME(TIME=TEMPO1)		!FUNÇÃO PARA PEGAR TEMPO INICIAL DO CÓDIGO
-
-      CALL FMAT(X,Y,G,H,FI,DFI,KODE,NOP,IDUP,A,B,XX,YY,XXC,YYC,NX)
+      CALL FMAT(X,Y,G,H,FI,DFI,KODE,NOP,IDUP,A,B,CB,XX,YY,XXC,YYC,NX,FR)
   
       CALL INTER(FI,DFI,KODE,NX)
 
-!*************************************************************************************************
-!*********************************CALCULA O TEMPO DE PROCESSAMENTO********************************
-      																	  					  !*
-	!*****FUNÇÃO PARA PEGAR TEMPO FINAL DO CÓDIGO						  					  !*
-	!CALL DATE_AND_TIME(TIME=TEMPO2)		     											  !*
-      																						  !*
-	!*****FUNÇÃO PARA CALCULAR A DIFERENÇA ENTRE OS DOIS									  !*
-	!TEMPO=CALCULA_TEMPO(TEMPO1,TEMPO2)														  !*
-																							  !*
-!*************************************************************************************************
-!************************************FUNÇÃO DE SAIDA DO PROGRAMA**********************************
-																							  !*
-      CALL OUTPUT (X,Y,FI,DFI,NX)																  !*
-																							  !*
-!*************************************************************************************************
+	!CALCULO DO TEMPO DE PROCESSAMENTO
+      !CALL DATE_AND_TIME(TIME=TEMPO2)      
+      !TEMPO=CALCULA_TEMPO(TEMPO1,TEMPO2)
 
+      CALL OUTPUT (X,Y,FI,DFI,NX,FR)
       STOP
       END
 
@@ -151,28 +149,35 @@ C      ARQENT = '320576.TXT'               !ERRO DE MATRIZ SINGULAR							  !*
 
 
 
-      SUBROUTINE INPUT(XXC,YYC,X,Y,KODE,FI,NOP,IDUP,NX,ARQENT)
+      SUBROUTINE INPUT(XXC,YYC,X,Y,KODE,FI,NOP,LOCC,IDUP,NX,SAI,ARQENT,
+     *FR)
 
 	IMPLICIT NONE
 	COMMON NE,NP,L,LEC,IMP,NPI,NT
-	INTEGER NX,LEC,IMP,NE,NP,NPI,L,NT,I,KODE(NX)
+	INTEGER NX,LEC,IMP,NE,NP,NPI,L,NT,I,LOCC(NX),KODE(NX)
 	INTEGER IDUP(NX),NOP(NX,3),J
-	REAL*8 XXC(NX),YYC(NX),X(NX),Y(NX),FI(NX)
-      CHARACTER TITLE*18,ARQENT*20,ARQOUT*50
-	!VARIAVEIS ABAIXO PARA PEGAR DATA ATUAL
+	REAL*8 XXC(NX),YYC(NX),X(NX),Y(NX),FI(NX),FR
+      CHARACTER TITLE*18,ARQENT*20,ARQOUT*50,SAI*20,STRING2*10
       INTEGER*4 DATE_TIME(8)
       CHARACTER*8 TIMENOW(3)      
 	
 
-!**********************************************************************************
-!*****************CHAMA A DATA ATUAL E ADICIONA NO ARQUIVO DE SAIDA****************
+	!WRITE(*,'(A\)')' INFORME NOME DO ARQUIVO DE SAIDA --->'
+      !READ(*,'(A20)')ARQOUT
+      !WRITE (STRING2,'(F10.2)') FR
+      
+C	WRITE(*,*) 'ARQUIVO DE SAIDA   ===> ',FR,'W',TIMENOW(1),"-"
+C	*,DATE_TIME(5),"-",DATE_TIME(6),"-",DATE_TIME(7),"-",ARQENT
+      
       CALL DATE_AND_TIME(TIMENOW(1), TIMENOW(2), TIMENOW(3), DATE_TIME)
 	ARQOUT = ARQENT//"-"//TIMENOW(1)//"-"//TIMENOW(2)//"-"//'.TXT'
 	WRITE(*,*) 'ARQUIVO DE SAIDA   ===> ',ARQOUT
       OPEN(IMP,FILE=ARQOUT)
+C
 
 !*********************************************************************************
 !**************FAZ A LEITURA DE DADOS CONTIDOS NO ARQUIVO DE PROBLEMA*************
+
       WRITE(IMP,100)
 100   FORMAT(' ',120('*'))
       READ(LEC,150) TITLE
@@ -191,8 +196,8 @@ C      ARQENT = '320576.TXT'               !ERRO DE MATRIZ SINGULAR							  !*
 
       WRITE(*,*) NE,NP,NPI
       WRITE(IMP,500)
-500   FORMAT (//2X,'COORDENADAS DOS PONTOS FONTE DOS ELEMENTOS DE ',
-     *'CONTORNO',//4X,'PONTO',10X,'X',18X,'Y')
+500   FORMAT (//2X,'COORDENADAS DOS PONTOS FONTE DOS ELEMENTOS DE
+     *CONTORNO',//4X,'PONTO',10X,'X',18X,'Y')
 
 
 
@@ -203,8 +208,11 @@ C      ARQENT = '320576.TXT'               !ERRO DE MATRIZ SINGULAR							  !*
 	READ(LEC,600)J, X(I),Y(I)
 600   FORMAT(I4,2F12.4)
 
+C     WRITE(IMP,900) KODE(I),IDUP(I),DSIN(3.1415*Y(I))
 	WRITE(IMP,700) I,X(I),Y(I)
 700   FORMAT(5X,I4,2(5X,E14.7))
+C	WRITE(IMP,700) X(I),Y(I)
+C700  FORMAT(2F12.5)
 750	CONTINUE
 
       WRITE(IMP,800)
@@ -217,6 +225,8 @@ C      ARQENT = '320576.TXT'               !ERRO DE MATRIZ SINGULAR							  !*
 950   FORMAT (5X,I3,8X,I1,8X,I3,8X,E14.7)
 
 	WRITE(IMP,880)
+c880   FORMAT(//,2X,'INCIDENCE OF GEOMETRIC NODES'//,5X,' FIRST NODE',
+c     16X,'SECOND NODE',/)
 880   FORMAT(//,2X,'INCIDENCIA DOS NOS GEOMETRICOS'//,7X,'INDICE',5X,
      *'PRIM. NÓ',6X,'SEG. NÓ')
 
@@ -231,28 +241,30 @@ C      ARQENT = '320576.TXT'               !ERRO DE MATRIZ SINGULAR							  !*
       END
 
 
-      SUBROUTINE FMAT(X,Y,G,H,FI,DFI,KODE,NOP,IDUP,A,B,XX,YY,XXC,YYC,NX)
+      SUBROUTINE FMAT(X,Y,G,H,FI,DFI,KODE,NOP,IDUP,A,B,CB,XX,YY,XXC,YYC,
+     *NX,FR)
       IMPLICIT NONE
 	COMMON NE,NP,L,LEC,IMP,NPI,NT
+      REAL*8 FR,I_INIC,J_INIC
+	INTEGER CONT_UPRES,CONT_QPRES,CONT_INTF,NUM(NX),NUM_2(NX)
  	INTEGER NX,NOP(NX,3),IDUP(NX),L1,L3,I,NE,L2,L4,NP,IMP
-	INTEGER NPI,NT,J,L,LEC,KODE(NX),K,PRINTE
+	INTEGER NPI,NT,J,NG,L,LEC,KODE(NX),CON1,CON2,K,N1,N2,PRINTE
 	INTEGER IUU,JUU,IQQ,JQQ,IUQ,JUQ,IQU,JQU,KA,KB
-	REAL*8 X(NX),Y(NX),XX(NX),YY(NX),HG1,HG2
+	REAL*8 XD(NX),X(NX),YD(NX),Y(NX),XX(NX),YY(NX),HG1,HG2
 	REAL*8 G(NX,NX),H(NX,NX),H1,H2,G1,G2,DX1,DX2,GG1,GG2
-	REAL*8 DY1,DY2,EX1,EX2,EY1,EY2,TA,RA,C(NX,NX)
-	REAL*8 P(NX,NX)
-	REAL*8 GG,ONETA(NX),CH,DFI(NX),FI(NX)
-	REAL*8 A(NX,NX),B(NX,NX),CC(NX,NX),PI
-	REAL*8 SLAMB(NX),ULAMB(NX,NX),XXC(NX),YYC(NX),DIST
-	REAL*8 GGK(NX,NX),HGK(NX,NX),OMEGA
-	REAL*8 HUU(NX,NX),HQQ(NX,NX),HQU(NX,NX),HUQ(NX,NX)
-	REAL*8 GUU(NX,NX),GQQ(NX,NX),GQU(NX,NX),GUQ(NX,NX)
+	REAL*8 DY1,DY2,EX1,EX2,EY1,EY2,TA,RA,C(NX,NX),FDO(NX),GE
+	REAL*8 P(NX,NX),CD(NX),D,R,TOK(NX,NX),ALFA(NX,NX),TETA
+	REAL*8 GG,ONETA(NX),CH,DFI(NX),CB(NX),FI(NX),Q(NX,NX)
+	REAL*8 A(NX,NX),B(NX,NX),CC(NX,NX),DC(NX),AG,K1,K2,PI
+	REAL*8 SLAMB(NX),ULAMB(NX,NX),CI(NX,NX),XXC(NX),YYC(NX),DIST,ALA
+	REAL*8 FF(NX,NX),GGM(NX,NX),GGK(NX,NX),HGK(NX,NX),OMEGA
+	REAL*8 HUU(NX,NX),HQQ(NX,NX),HQU(NX,NX)
 	REAL*8 SUU(NX,NX),SQQ(NX,NX),SQU(NX,NX),SUQ(NX,NX)
 	REAL*8 WUU(NX,NX),WQQ(NX,NX),WQU(NX,NX),WUQ(NX,NX)
-	REAL*8 CCUQ(NX,NX),CCQU(NX,NX),CCUU(NX,NX),CCQQ(NX,NX)
-C	REAL*8 CCBAR(NX,NX)
-	!AS MATRIZES TERM_XX_N() SÃO AS MATRIZES QUE COMPÕEM AS 12 
-	!MULTIPLICAÇÕES MATRICIAIS APÓS A SUBSTITUIÇÃO DA EQUAÇÃO (2) EM (1).  
+	REAL*8 HUQ(NX,NX),CCUQ(NX,NX),CCQU(NX,NX),CCUU(NX,NX),CCQQ(NX,NX)
+	REAL*8 GUQ(NX,NX),GQU(NX,NX),GUU(NX,NX),GQQ(NX,NX),CCBAR(NX,NX)
+	REAL*8 DOMA(NX,NX),DOMB(NX,NX),DOMC(NX,NX),DOMD(NX,NX),HBAR(NX,NX)
+	REAL*8 DOME(NX,NX)
 	REAL*8 TERM_QU_1(1,1),TERM_QU_2(1,1),TERM_QU_3(1,1)
 	REAL*8 TERM_QU_4(1,1),TERM_QU_5(1,1),TERM_QU_6(1,1)
 	REAL*8 TERM_QU_7(1,1),TERM_QU_8(1,1),TERM_QU_9(1,1)
@@ -261,8 +273,8 @@ C	REAL*8 CCBAR(NX,NX)
 	REAL*8 TERM_QQ_4(1,1),TERM_QQ_5(1,1),TERM_QQ_6(1,1)
 	REAL*8 TERM_QQ_7(1,1),TERM_QQ_8(1,1),TERM_QQ_9(1,1)
 	REAL*8 TERM_QQ_10(1,1),TERM_QQ_11(1,1),TERM_QQ_12(1,1)
-c	REAL*8 MATRIZA(1,1),MATRIZB(1,1),MATRIZC(1,1)
-c	REAL*8 MATRIZD(1,1),MATRIZE(1,1)
+	REAL*8 MATRIZA(1,1),MATRIZB(1,1),MATRIZC(1,1)
+	REAL*8 MATRIZD(1,1),MATRIZE(1,1)
 	REAL*8 MATRIZA_LINHA(NX,NX),MATRIZB_LINHA(NX,NX)
 C	REAL*8 TERM_QU_1(NX,NX),TERM_QU_2(NX,NX),TERM_QU_3(NX,NX)
 C	REAL*8 TERM_QU_4(NX,NX),TERM_QU_5(NX,NX),TERM_QU_6(NX,NX)
@@ -274,6 +286,7 @@ C	REAL*8 TERM_QQ_7(NX,NX),TERM_QQ_8(NX,NX),TERM_QQ_9(NX,NX)
 C	REAL*8 TERM_QQ_10(NX,NX),TERM_QQ_11(NX,NX),TERM_QQ_12(NX,NX)
 C	REAL*8 MATRIZA(NX,NX),MATRIZB(NX,NX),MATRIZC(NX,NX)
 C	REAL*8 MATRIZD(NX,NX),MATRIZE(NX,NX)
+	REAL*8 TAK(NX,NX),EIGV(NX)
 	PARAMETER (PI=3.141592)
 C
       
@@ -285,47 +298,42 @@ C
 1     CONTINUE
           
 	PRINTE=1
+C
+C     ROTINA PARA AFASTAR OS PONTOS NODAIS DUPLOS DA QUINA DAS ARESTAS
+C
+	DIST=0.02 !PORCENTAGEM DO AFASTAMENTO DO ELEMENTO DA ARESTA
+C	KODE(0)=1
+	DO 156 I=1,NE
+		L1=NOP(I,1)
+		L3=IDUP(L1)
+		IF (L3.EQ.0) GO TO 153
+			L2=NOP(I,2)
+			X(L1)=X(L1)+DIST*(X(L2)-X(L1))
+			Y(L1)=Y(L1)+DIST*(Y(L2)-Y(L1))
+C			ALA=KODE(L1)+KODE(L3)
+C			IF(ALA.NE.0) GO TO 152
+C152			CONTINUE
+C			GO TO 154
+153		CONTINUE
+154		CONTINUE
+		L2=NOP(I,2)
+		L4=IDUP(L2)
+		IF (L4.EQ.0) GO TO 155
+		X(L2)=X(L2)-DIST*(X(L2)-X(L1))
+		Y(L2)=Y(L2)-DIST*(Y(L2)-Y(L1))
+C		ALA=KODE(L2)+KODE(L4)
+C		IF (ALA.NE.0) GO TO 155
+155		CONTINUE
+156   CONTINUE
 
-!******************************************************************************************************* 
-!*****************ROTINA PARA AFASTAR OS PONTOS NODAIS DUPLOS DA QUINA DAS ARESTAS**********************
-																									!*
-	DIST=0.02			!PORCENTAGEM DO AFASTAMENTO DO ELEMENTO DA ARESTA							!*
-C	KODE(0)=1																						!*
-	DO 156 I=1,NE		!LOOP INICIA PARA REAJUSTAR OS PONTOS DO CONTORNO E ARESTAS 				!*
-		L1=NOP(I,1)																					!*
-		L3=IDUP(L1)																					!*
-		IF (L3.EQ.0) GO TO 153																		!*
-			L2=NOP(I,2)																				!*
-			X(L1)=X(L1)+DIST*(X(L2)-X(L1))															!*
-			Y(L1)=Y(L1)+DIST*(Y(L2)-Y(L1))															!*
-C			ALA=KODE(L1)+KODE(L3)																	!*
-C			IF(ALA.NE.0) GO TO 152																	!*
-C152			CONTINUE																				!*
-C			GO TO 154																				!*
-153		CONTINUE																					!*
-154		CONTINUE																					!*
-		L2=NOP(I,2)																					!*
-		L4=IDUP(L2)																					!*
-		IF (L4.EQ.0) GO TO 155																		!*
-		X(L2)=X(L2)-DIST*(X(L2)-X(L1))																!*
-		Y(L2)=Y(L2)-DIST*(Y(L2)-Y(L1))																!*
-C		ALA=KODE(L2)+KODE(L4)																		!*
-C		IF (ALA.NE.0) GO TO 155																		!*
-155		CONTINUE																					!*
-156   CONTINUE																						!*
-																									!*
-!*******************************************************************************************************
-!******************ROTINA ESCREVER E DEPURAR SE OS PONTOS FORAM AFASTADOS CORRETAMENTE******************
-																									!*
-      WRITE(IMP,*)'NOVAS COORDENADAS DOS NOS DUPLOS'													!*
-	DO 17 I=1,NP																					!*
-		WRITE(IMP,181)X(I),Y(I)																		!*
- 181		FORMAT(2(3X,F8.4))																			!*
- 17   CONTINUE																						!*
-																									!*
-!*******************************************************************************************************
-!*****************FORMAÇÃO DAS MATRIZES H, G E DO TERMO INDEPENDENTE HGK TIPO GALERKIN******************
-
+      WRITE(IMP,*)'NOVAS COORDENADAS DOS NOS DUPLOS'
+	DO 17 I=1,NP
+		WRITE(IMP,181)X(I),Y(I)
+ 181		FORMAT(2(3X,F8.4))
+ 17   CONTINUE
+C
+C      FORMAÇÃO DAS MATRIZES H, G E DO TERMO INDEPENDENTE HGK TIPO GALERKIN
+C
       DO 10 I=1,NT
 		DO 10 J=1,NT
 			G(I,J)=0    !INICIAR G COM ZEROS
@@ -802,8 +810,46 @@ C	WRITE(*,*) 'MATRIZB_LINHA(286,',J,') = ',MATRIZB_LINHA(286,J)
 C	WRITE(*,*) 'MATRIZB(',I,',',J,') = ',MATRIZB(I,J)
 C3107	CONTINUE
 
-	WRITE(IMP,*)'VALORES DE AUTOV DE ENTRADA ************************'
 	CALL AUTOV(MATRIZA_LINHA,MATRIZB_LINHA,4*JQQ,FI,DFI,1,4*NT,4*JUU)		
+
+
+
+
+
+C	DO 3106 I=(JQQ+1),(2*JQQ)
+C 		DO 3106 J=1,JQQ
+C		
+C3106	CONTINUE
+C	DO 3107 I=(2*JQQ+1),(3*JQQ)
+C 		DO 3107 J=1,JQQ
+C		
+C3107	CONTINUE
+C	DO 3108 I=(3*JQQ+1),(4*JQQ)
+C 		DO 3108 J=1,JQQ
+C		
+C3108	CONTINUE
+
+
+C	DO 3102 I=1,JUU
+C		DO 3102 J=1,JQQ
+C			DO 3102 K=1,JUU
+C				DOMA(I,J)=DOMA(I,J)+GUU(I,K)*HUQ(K,J)
+C				DOMB(I,J)=DOMB(I,J)+GUU(I,K)*CCUQ(K,J)
+C3102	CONTINUE
+C	DO 3103 I=1,JQQ
+C 		DO 3103 J=1,JQQ
+C			DO 3103 K=1,JUU
+C				DOMC(I,J)=DOMC(I,J)+GQU(I,K)*DOMA(K,J)
+C				DOMD(I,J)=DOMD(I,J)+GQU(I,K)*DOMB(K,J)
+C3103	CONTINUE
+C	DO 3104 I=1,JQQ
+C 		DO 3104 J=1,JQQ
+C			HBAR(I,J)=HQQ(I,J)-DOMC(I,J)
+C			CCBAR(I,J)=CCQQ(I,J)-DOMD(I,J)
+C3104	CONTINUE
+C
+C
+	
 
 
 
@@ -815,6 +861,3 @@ C     CALL SLNPD(CC,DFI,NT,NX)
 
       RETURN
       END
-
-
-

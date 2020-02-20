@@ -1,308 +1,310 @@
-      subroutine inte(xp,yp,x1,y1,x2,y2,h1,h2,g1,g2,dx1,dx2,dy1,dy2,
-     *ex1,ex2,ey1,ey2)  
-      implicit none  
-	common ne,np,l,lec,imp,npi,nt
-	integer i,ne,np,l,lec,imp,npi,nt
-	real*8 gi(40),ome(40),ax,x1,x2,bx,ay,y1,y2,by,comp,h1,h2
-	real*8 g1,g2,dx1,dx2,dy1,dy2,ex1,ex2,ey1,ey2,pi2,xco(40)
-	real*8 yco(40),ra,xp,yp,aux,h,g,cjac,gx,gy,hx,hy,sen,cos
+      SUBROUTINE INTE(XP,YP,X1,Y1,X2,Y2,H1,H2,G1,G2,DX1,DX2,DY1,DY2,
+     *EX1,EX2,EY1,EY2)  
+      IMPLICIT NONE  
+	COMMON NE,NP,L,LEC,IMP,NPI,NT
+	INTEGER I,NE,NP,L,LEC,IMP,NPI,NT
+	REAL*8 GI(40),OME(40),AX,X1,X2,BX,AY,Y1,Y2,BY,COMP,H1,H2
+	REAL*8 G1,G2,DX1,DX2,DY1,DY2,EX1,EX2,EY1,EY2,PI2,XCO(40)
+	REAL*8 YCO(40),RA,XP,YP,AUX,H,G,CJAC,GX,GY,HX,HY,SEN,COS
 
 
 
-	 GI(1)=0.998237709710559340
-       GI(2)=-GI(1)
-       GI(3)=0.990726238699457038
-       GI(4)=-GI(3)
-       GI(5)=0.977259949983774336
-       GI(6)=-GI(5)
-       GI(7)=0.957916819213791734
-       GI(8)=-GI(7)
-       GI(9)=0.932812808278676532 
-       GI(10)=-GI(9)
-       GI(11)=0.902098806968874330 
-       GI(12)=-GI(11)
-       GI(13)=0.865959503212259528
-       GI(14)=-GI(13)
-       GI(15)=0.824612230833311726
-       GI(16)=-GI(15)
-       GI(17)=0.778305651426519424
-       GI(18)=-GI(17)
-       GI(19)=0.727318255189927122 
-       GI(20)=-GI(19)
-	 GI(21)=0.671956684614179620
-       GI(22)=-GI(21)
-       GI(23)=0.612553889667980218
-       GI(24)=-GI(23)
-       GI(25)=0.549467125095128216
-       GI(26)=-GI(25)
-       GI(27)=0.483075801686178714
-       GI(28)=-GI(27)
-       GI(29)=0.413779204371605012
-       GI(30)=-GI(29)
-       GI(31)=0.341994090825758510 
-       GI(32)=-GI(31)
-       GI(33)=0.26815218500725378
-       GI(34)=-GI(33)
-       GI(35)=0.19269758070137116
-       GI(36)=-GI(35)
-       GI(37)=0.11608407067525524
-       GI(38)=-GI(37)
-       GI(39)=0.03877241750605082 
-       GI(40)=-GI(39)
+	GI(1)=0.998237709710559340
+      GI(2)=-GI(1)
+      GI(3)=0.990726238699457038
+      GI(4)=-GI(3)
+      GI(5)=0.977259949983774336
+      GI(6)=-GI(5)
+      GI(7)=0.957916819213791734
+      GI(8)=-GI(7)
+      GI(9)=0.932812808278676532 
+      GI(10)=-GI(9)
+      GI(11)=0.902098806968874330 
+      GI(12)=-GI(11)
+      GI(13)=0.865959503212259528
+      GI(14)=-GI(13)
+      GI(15)=0.824612230833311726
+      GI(16)=-GI(15)
+      GI(17)=0.778305651426519424
+      GI(18)=-GI(17)
+      GI(19)=0.727318255189927122 
+      GI(20)=-GI(19)
+	GI(21)=0.671956684614179620
+      GI(22)=-GI(21)
+      GI(23)=0.612553889667980218
+      GI(24)=-GI(23)
+      GI(25)=0.549467125095128216
+      GI(26)=-GI(25)
+      GI(27)=0.483075801686178714
+      GI(28)=-GI(27)
+      GI(29)=0.413779204371605012
+      GI(30)=-GI(29)
+      GI(31)=0.341994090825758510 
+      GI(32)=-GI(31)
+      GI(33)=0.26815218500725378
+      GI(34)=-GI(33)
+      GI(35)=0.19269758070137116
+      GI(36)=-GI(35)
+      GI(37)=0.11608407067525524
+      GI(38)=-GI(37)
+      GI(39)=0.03877241750605082 
+      GI(40)=-GI(39)
 
 *
-*      pesos de Gauss
-*
-       OME(1)=0.0045212770985332
-       OME(2)=OME(1)
-       OME(3)=0.0104982845311528 
-       OME(4)=OME(3)
-       OME(5)=0.0164210583819079 
-       OME(6)=OME(5)
-       OME(7)=0.0222458491941670
-       OME(8)=OME(7)
-       OME(9)=0.0279370069800234
-       OME(10)=OME(9)
-       OME(11)=0.0334601952825478 
-       OME(12)=OME(11)
-       OME(13)=0.0387821679744720
-       OME(14)=OME(13)
-       OME(15)=0.0438709081856733
-       OME(16)=OME(15)
-       OME(17)=0.0486958076350722
-       OME(18)=OME(17)
-       OME(19)=0.0532278469839368
-       OME(20)=OME(19)
-       OME(21)=0.0574397690993916 
-       OME(22)=OME(21)
-       OME(23)=0.0613062424929289
-       OME(24)=OME(23)
-       OME(25)=0.0648040134566010
-       OME(26)=OME(25)
-       OME(27)=0.0679120458152339
-       OME(28)=OME(27)
-       OME(29)=0.0706116473912868
-       OME(30)=OME(29)
-       OME(31)=0.0728865823958041 
-       OME(32)=OME(31)
-       OME(33)=0.0747231690579683
-       OME(34)=OME(33)
-       OME(35)=0.0761103619006262
-       OME(36)=OME(35)
-       OME(37)=0.0770398181642480 
-       OME(38)=OME(37)
-       OME(39)=0.0775059479784248
-       OME(40)=OME(39)
+*      PESOS DE GAUSS
+
+      OME(1)=0.0045212770985332
+      OME(2)=OME(1)
+      OME(3)=0.0104982845311528 
+      OME(4)=OME(3)
+      OME(5)=0.0164210583819079 
+      OME(6)=OME(5)
+      OME(7)=0.0222458491941670
+      OME(8)=OME(7)
+      OME(9)=0.0279370069800234
+      OME(10)=OME(9)
+      OME(11)=0.0334601952825478 
+      OME(12)=OME(11)
+      OME(13)=0.0387821679744720
+      OME(14)=OME(13)
+      OME(15)=0.0438709081856733
+      OME(16)=OME(15)
+      OME(17)=0.0486958076350722
+      OME(18)=OME(17)
+      OME(19)=0.0532278469839368
+      OME(20)=OME(19)
+      OME(21)=0.0574397690993916 
+      OME(22)=OME(21)
+      OME(23)=0.0613062424929289
+      OME(24)=OME(23)
+      OME(25)=0.0648040134566010
+      OME(26)=OME(25)
+      OME(27)=0.0679120458152339
+      OME(28)=OME(27)
+      OME(29)=0.0706116473912868
+      OME(30)=OME(29)
+      OME(31)=0.0728865823958041 
+      OME(32)=OME(31)
+      OME(33)=0.0747231690579683
+      OME(34)=OME(33)
+      OME(35)=0.0761103619006262
+      OME(36)=OME(35)
+      OME(37)=0.0770398181642480 
+      OME(38)=OME(37)
+      OME(39)=0.0775059479784248
+      OME(40)=OME(39)
 
 
-      ax=(x2-x1)/2				!tamanho x da metade do elemento
-      bx=(x2+x1)/2				!valor da coordenada x da metade do elemento
-      ay=(y2-y1)/2				!tamanho y da metade do elemento
-      by=(y1+y2)/2				!valor da coordenada y da metade do elemento
-	comp=2*dsqrt(ax**2+ay**2)	!comprimento do elemento
-	cjac=comp/2					!metade do comprimento do elemento (comp. jacobiana)
-      SEN=(X1-X2)/COMP			!seno do elemento
-      COS=(Y2-Y1)/COMP			! cosseno do elemento
+      AX=(X2-X1)/2				!TAMANHO X DA METADE DO ELEMENTO
+      BX=(X2+X1)/2				!VALOR DA COORDENADA X DA METADE DO ELEMENTO
+      AY=(Y2-Y1)/2				!TAMANHO Y DA METADE DO ELEMENTO
+      BY=(Y1+Y2)/2				!VALOR DA COORDENADA Y DA METADE DO ELEMENTO
+	COMP=2*DSQRT(AX**2+AY**2)	!COMPRIMENTO DO ELEMENTO
+	CJAC=COMP/2					!METADE DO COMPRIMENTO DO ELEMENTO (COMP. JACOBIANA)
+      SEN=(X1-X2)/COMP			!SENO DO ELEMENTO
+      COS=(Y2-Y1)/COMP			! COSSENO DO ELEMENTO
 		     
-      h1=0
-      h2=0
-      g1=0
-      g2=0
-	dx1=0
-	dx2=0
-	dy1=0
-	dy2=0
-	ex1=0
-	ex2=0
-	ey1=0
-	ey2=0
-	pi2=6.28318
+      H1=0
+      H2=0
+      G1=0
+      G2=0
+	DX1=0
+	DX2=0
+	DY1=0
+	DY2=0
+	EX1=0
+	EX2=0
+	EY1=0
+	EY2=0
+	PI2=6.28318
       
-      do 40 i=1,40
-		xco(i)=ax*gi(i)+bx !valor da coordenada do pto central do elemento +- metade do comprimento ponderado pelo ponto de gauss
-		yco(i)=ay*gi(i)+by
-		ra=dsqrt((xco(i)-xp)**2+(yco(i)-yp)**2) ! raio = sqrt(ri²)
-		aux=(xco(i)-xp)*cos+(yco(i)-yp)*sen ! multiplicação ri*ni = [x(ksi)-x(j)]*n1+[y(ksi)-y(j)]*n2 = [x(ksi)-x(j)]*cos+[y(ksi)-y(j)]*sen
-		h=-aux*ome(i)*cjac/(pi2*ra**2) ! calculo matriz h = (-1/2pi)*(1/r)*(dr/dn)*ni = (-1/2pi)*(1/r)*r,i*ni = (-1/2pi)*(1/r)*(ri/r)*ni = (-1/2pi)*(1/r²)*(ri*ni)
-		g=dlog(1/ra)*ome(i)*cjac/pi2   ! calculo matriz g = ln(1/r)/2pi
-		gx=ome(I)*cjac*(XCO(i)-XP)/(pi2*ra**2) !nao usado
-		gy=ome(I)*cjac*(YCO(i)-YP)/(pi2*ra**2) !nao usado
-		hx=OME(I)*cjac*(2*AUX*(XP-XCO(i))+COS*ra*ra)/(pi2*ra**4) !nao usado
-		hy=OME(I)*cjac*(2*AUX*(YP-YCO(i))+SEN*ra*ra)/(pi2*ra**4) !nao usado
-		h1=h1-(gi(i)-1)*h/2 !h com phi1     !VERIFICAR
-		h2=h2+(gi(i)+1)*h/2 !h com phi2     !VERIFICAR
-		g1=g1-(gi(i)-1)*g/2 !g com phi1     !VERIFICAR
-		g2=g2+(gi(i)+1)*g/2 !g com phi2     !VERIFICAR - É POR CAUSA DO ELEMENTO SER LINEAR ?
- 		dx1=dx1-(gi(i)-1)*gx/2 !nao usado
-		dx2=dx2+(gi(i)+1)*gx/2 !nao usado
-		dy1=dy1-(gi(i)-1)*gy/2 !nao usado
-		dy2=dy2+(gi(i)+1)*gy/2 !nao usado
-		ex1=ex1-(gi(i)-1)*hx/2 !nao usado
-		ex2=ex2+(gi(i)+1)*hx/2 !nao usado
-		ey1=ey1-(gi(i)-1)*hy/2 !nao usado
- 40		ey2=ey2+(gi(i)+1)*hy/2 !nao usado
-	return
-      end
+      DO 40 I=1,40
+		XCO(I)=AX*GI(I)+BX !VALOR DA COORDENADA DO PTO CENTRAL DO ELEMENTO +- METADE DO COMPRIMENTO PONDERADO PELO PONTO DE GAUSS
+		YCO(I)=AY*GI(I)+BY
+		RA=DSQRT((XCO(I)-XP)**2+(YCO(I)-YP)**2) ! RAIO = SQRT(RI²)
+		AUX=(XCO(I)-XP)*COS+(YCO(I)-YP)*SEN ! MULTIPLICAÇÃO RI*NI = [X(KSI)-X(J)]*N1+[Y(KSI)-Y(J)]*N2 = [X(KSI)-X(J)]*COS+[Y(KSI)-Y(J)]*SEN
+		H=-AUX*OME(I)*CJAC/(PI2*RA**2) ! CALCULO MATRIZ H = (-1/2PI)*(1/R)*(DR/DN)*NI = (-1/2PI)*(1/R)*R,I*NI = (-1/2PI)*(1/R)*(RI/R)*NI = (-1/2PI)*(1/R²)*(RI*NI)
+		G=DLOG(1/RA)*OME(I)*CJAC/PI2   ! CALCULO MATRIZ G = LN(1/R)/2PI
+		GX=OME(I)*CJAC*(XCO(I)-XP)/(PI2*RA**2) !NAO USADO
+		GY=OME(I)*CJAC*(YCO(I)-YP)/(PI2*RA**2) !NAO USADO
+		HX=OME(I)*CJAC*(2*AUX*(XP-XCO(I))+COS*RA*RA)/(PI2*RA**4) !NAO USADO
+		HY=OME(I)*CJAC*(2*AUX*(YP-YCO(I))+SEN*RA*RA)/(PI2*RA**4) !NAO USADO
+		H1=H1-(GI(I)-1)*H/2 !H COM PHI1     !VERIFICAR
+		H2=H2+(GI(I)+1)*H/2 !H COM PHI2     !VERIFICAR
+		G1=G1-(GI(I)-1)*G/2 !G COM PHI1     !VERIFICAR
+		G2=G2+(GI(I)+1)*G/2 !G COM PHI2     !VERIFICAR - É POR CAUSA DO ELEMENTO SER LINEAR ?
+ 		DX1=DX1-(GI(I)-1)*GX/2 !NAO USADO
+		DX2=DX2+(GI(I)+1)*GX/2 !NAO USADO
+		DY1=DY1-(GI(I)-1)*GY/2 !NAO USADO
+		DY2=DY2+(GI(I)+1)*GY/2 !NAO USADO
+		EX1=EX1-(GI(I)-1)*HX/2 !NAO USADO
+		EX2=EX2+(GI(I)+1)*HX/2 !NAO USADO
+		EY1=EY1-(GI(I)-1)*HY/2 !NAO USADO
+		EY2=EY2+(GI(I)+1)*HY/2 !NAO USADO
+40	CONTINUE
+	RETURN
+      END
 
-      subroutine inlo(x1,y1,x2,y2,g1,g2)
-	implicit none
-	real*8 sep,g1,x1,x2,y1,y2,g2
+      SUBROUTINE INLO(X1,Y1,X2,Y2,G1,G2)
+	IMPLICIT NONE
+	REAL*8 SEP,G1,X1,X2,Y1,Y2,G2
 
-	sep=dsqrt((x2-x1)**2+(y2-y1)**2) !calculo do raio do elemento
-	g1=sep*(1.5-dlog(sep))/(2*6.28318) !g com phi1     !VERIFICAR
-      g2=sep*(0.5-dlog(sep))/(2*6.28318) !g com phi2     !VERIFICAR - É POR CAUSA DO ELEMENTO SER LINEAR ?
-      continue
-      return
-      end
-c
-c
+	SEP=DSQRT((X2-X1)**2+(Y2-Y1)**2) !CALCULO DO RAIO DO ELEMENTO
+	G1=SEP*(1.5-DLOG(SEP))/(2*6.28318) !G COM PHI1     !VERIFICAR
+      G2=SEP*(0.5-DLOG(SEP))/(2*6.28318) !G COM PHI2     !VERIFICAR - É POR CAUSA DO ELEMENTO SER LINEAR ?
+      CONTINUE
+      RETURN
+      END
+C
+C
 
-	subroutine galerk1(xp,yp,x1,y1,x2,y2,hg1,hg2,gg1,gg2)  
-	common ne,np,l,lec,imp,npi,nt
-	real*8 xco(40),yco(40),gi(40),ome(40)
-	real*8 hg1,hg2,gg1,gg2,ax,x1,x2,bx,ay,y1,y2,by,comp
-	real*8 ra,xp,yp,aux,h,g,cjac,gx,gy,hx,hy,sen,coss
-	real*8 hgar,ggar
+	SUBROUTINE GALERK1(XP,YP,X1,Y1,X2,Y2,HG1,HG2,GG1,GG2)  
+	COMMON NE,NP,L,LEC,IMP,NPI,NT
+	REAL*8 XCO(40),YCO(40),GI(40),OME(40)
+	REAL*8 HG1,HG2,GG1,GG2,AX,X1,X2,BX,AY,Y1,Y2,BY,COMP
+	REAL*8 RA,XP,YP,AUX,H,G,CJAC,GX,GY,HX,HY,SEN,COSS
+	REAL*8 HGAR,GGAR
 
-	 GI(1)=0.998237709710559340
-       GI(2)=-GI(1)
-       GI(3)=0.990726238699457038
-       GI(4)=-GI(3)
-       GI(5)=0.977259949983774336
-       GI(6)=-GI(5)
-       GI(7)=0.957916819213791734
-       GI(8)=-GI(7)
-       GI(9)=0.932812808278676532 
-       GI(10)=-GI(9)
-       GI(11)=0.902098806968874330 
-       GI(12)=-GI(11)
-       GI(13)=0.865959503212259528
-       GI(14)=-GI(13)
-       GI(15)=0.824612230833311726
-       GI(16)=-GI(15)
-       GI(17)=0.778305651426519424
-       GI(18)=-GI(17)
-       GI(19)=0.727318255189927122 
-       GI(20)=-GI(19)
-	 GI(21)=0.671956684614179620
-       GI(22)=-GI(21)
-       GI(23)=0.612553889667980218
-       GI(24)=-GI(23)
-       GI(25)=0.549467125095128216
-       GI(26)=-GI(25)
-       GI(27)=0.483075801686178714
-       GI(28)=-GI(27)
-       GI(29)=0.413779204371605012
-       GI(30)=-GI(29)
-       GI(31)=0.341994090825758510 
-       GI(32)=-GI(31)
-       GI(33)=0.26815218500725378
-       GI(34)=-GI(33)
-       GI(35)=0.19269758070137116
-       GI(36)=-GI(35)
-       GI(37)=0.11608407067525524
-       GI(38)=-GI(37)
-       GI(39)=0.03877241750605082 
-       GI(40)=-GI(39)
+	GI(1)=0.998237709710559340
+      GI(2)=-GI(1)
+      GI(3)=0.990726238699457038
+      GI(4)=-GI(3)
+      GI(5)=0.977259949983774336
+      GI(6)=-GI(5)
+      GI(7)=0.957916819213791734
+      GI(8)=-GI(7)
+      GI(9)=0.932812808278676532 
+      GI(10)=-GI(9)
+      GI(11)=0.902098806968874330 
+      GI(12)=-GI(11)
+      GI(13)=0.865959503212259528
+      GI(14)=-GI(13)
+      GI(15)=0.824612230833311726
+      GI(16)=-GI(15)
+      GI(17)=0.778305651426519424
+      GI(18)=-GI(17)
+      GI(19)=0.727318255189927122 
+      GI(20)=-GI(19)
+	GI(21)=0.671956684614179620
+      GI(22)=-GI(21)
+      GI(23)=0.612553889667980218
+      GI(24)=-GI(23)
+      GI(25)=0.549467125095128216
+      GI(26)=-GI(25)
+      GI(27)=0.483075801686178714
+      GI(28)=-GI(27)
+      GI(29)=0.413779204371605012
+      GI(30)=-GI(29)
+      GI(31)=0.341994090825758510 
+      GI(32)=-GI(31)
+      GI(33)=0.26815218500725378
+      GI(34)=-GI(33)
+      GI(35)=0.19269758070137116
+      GI(36)=-GI(35)
+      GI(37)=0.11608407067525524
+      GI(38)=-GI(37)
+      GI(39)=0.03877241750605082 
+      GI(40)=-GI(39)
 
-*
-*      pesos de Gauss
-*
-       OME(1)=0.0045212770985332
-       OME(2)=OME(1)
-       OME(3)=0.0104982845311528 
-       OME(4)=OME(3)
-       OME(5)=0.0164210583819079 
-       OME(6)=OME(5)
-       OME(7)=0.0222458491941670
-       OME(8)=OME(7)
-       OME(9)=0.0279370069800234
-       OME(10)=OME(9)
-       OME(11)=0.0334601952825478 
-       OME(12)=OME(11)
-       OME(13)=0.0387821679744720
-       OME(14)=OME(13)
-       OME(15)=0.0438709081856733
-       OME(16)=OME(15)
-       OME(17)=0.0486958076350722
-       OME(18)=OME(17)
-       OME(19)=0.0532278469839368
-       OME(20)=OME(19)
-       OME(21)=0.0574397690993916 
-       OME(22)=OME(21)
-       OME(23)=0.0613062424929289
-       OME(24)=OME(23)
-       OME(25)=0.0648040134566010
-       OME(26)=OME(25)
-       OME(27)=0.0679120458152339
-       OME(28)=OME(27)
-       OME(29)=0.0706116473912868
-       OME(30)=OME(29)
-       OME(31)=0.0728865823958041 
-       OME(32)=OME(31)
-       OME(33)=0.0747231690579683
-       OME(34)=OME(33)
-       OME(35)=0.0761103619006262
-       OME(36)=OME(35)
-       OME(37)=0.0770398181642480 
-       OME(38)=OME(37)
-       OME(39)=0.0775059479784248
-       OME(40)=OME(39)
 
-       
-      ax=(x2-x1)/2
-      bx=(x2+x1)/2
-      ay=(y2-y1)/2
-      by=(y1+y2)/2
-	comp=2*sqrt(ax**2+ay**2)
-	cjac=comp/2 ! cjac é o jacobiano, igual ao comprimento sobre 2
-      SEN=(X1-X2)/COMP
-      COSS=(Y2-Y1)/COMP
+      !PESOS DE GAUSS
+
+      OME(1)=0.0045212770985332
+      OME(2)=OME(1)
+      OME(3)=0.0104982845311528 
+      OME(4)=OME(3)
+      OME(5)=0.0164210583819079 
+      OME(6)=OME(5)
+      OME(7)=0.0222458491941670
+      OME(8)=OME(7)
+      OME(9)=0.0279370069800234
+      OME(10)=OME(9)
+      OME(11)=0.0334601952825478 
+      OME(12)=OME(11)
+      OME(13)=0.0387821679744720
+      OME(14)=OME(13)
+      OME(15)=0.0438709081856733
+      OME(16)=OME(15)
+      OME(17)=0.0486958076350722
+      OME(18)=OME(17)
+      OME(19)=0.0532278469839368
+      OME(20)=OME(19)
+      OME(21)=0.0574397690993916 
+      OME(22)=OME(21)
+      OME(23)=0.0613062424929289
+      OME(24)=OME(23)
+      OME(25)=0.0648040134566010
+      OME(26)=OME(25)
+      OME(27)=0.0679120458152339
+      OME(28)=OME(27)
+      OME(29)=0.0706116473912868
+      OME(30)=OME(29)
+      OME(31)=0.0728865823958041 
+      OME(32)=OME(31)
+      OME(33)=0.0747231690579683
+      OME(34)=OME(33)
+      OME(35)=0.0761103619006262
+      OME(36)=OME(35)
+      OME(37)=0.0770398181642480 
+      OME(38)=OME(37)
+      OME(39)=0.0775059479784248
+      OME(40)=OME(39)
+
+
+
+      AX=(X2-X1)/2				!TAMANHO X DA METADE DO ELEMENTO
+      BX=(X2+X1)/2				!VALOR DA COORDENADA X DA METADE DO ELEMENTO
+      AY=(Y2-Y1)/2				!TAMANHO Y DA METADE DO ELEMENTO
+      BY=(Y1+Y2)/2				!VALOR DA COORDENADA Y DA METADE DO ELEMENTO
+	COMP=2*DSQRT(AX**2+AY**2)	!COMPRIMENTO DO ELEMENTO
+	CJAC=COMP/2					!METADE DO COMPRIMENTO DO ELEMENTO (COMP. JACOBIANA)
+      SEN=(X1-X2)/COMP			!SENO DO ELEMENTO
+      COS=(Y2-Y1)/COMP			! COSSENO DO ELEMENTO
+            
+	HG1=0
+	HG2=0
+	GG1=0
+	GG2=0
+	PI2=6.28318
       
-	hg1=0
-	hg2=0
-	gg1=0
-	gg2=0
-	pi2=6.28318
-      
-      do 1400 i=1,40
-      xco(i)=ax*gi(i)+bx
-      yco(i)=ay*gi(i)+by
-      ra=sqrt((xco(i)-xp)**2+(yco(i)-yp)**2)
-	aux=(xco(i)-xp)*coss+(yco(i)-yp)*sen
-      ggar=ra*ra*(1.-dlog(ra))*ome(i)*cjac/(4*pi2) !G*=(r²/8pi)*(1-ln(r))
-      hgar=(0.5-dlog(ra))*ome(i)*aux*cjac/(2*pi2)  !G,i*ni=(1/4pi)*[0.5-ln(r)]*aux
-	hg1=hg1-(gi(i)-1)*hgar/2
-      hg2=hg2+(gi(i)+1)*hgar/2
-      gg1=gg1-(gi(i)-1)*ggar/2
-      gg2=gg2+(gi(i)+1)*ggar/2
-1400  continue
-      return
-      end
-c
-c
-	subroutine galerk2(x1,y1,x2,y2,gg1,gg2)
-c
-c	determinação dos coeficientes da integração de G* DIRETA no próprio elemento, ponto csi nos extremos
-c
-	real*8 sep,gg1,gg2,x1,x2,y1,y2
+      DO 1400 I=1,40
+      XCO(I)=AX*GI(I)+BX
+      YCO(I)=AY*GI(I)+BY
+      RA=SQRT((XCO(I)-XP)**2+(YCO(I)-YP)**2)
+	AUX=(XCO(I)-XP)*COSS+(YCO(I)-YP)*SEN
+      GGAR=RA*RA*(1.-DLOG(RA))*OME(I)*CJAC/(4*PI2) !G*=(R²/8PI)*(1-LN(R))
+      HGAR=(0.5-DLOG(RA))*OME(I)*AUX*CJAC/(2*PI2)  !G,I*NI=(1/4PI)*[0.5-LN(R)]*AUX
+	HG1=HG1-(GI(I)-1)*HGAR/2
+      HG2=HG2+(GI(I)+1)*HGAR/2
+      GG1=GG1-(GI(I)-1)*GGAR/2
+      GG2=GG2+(GI(I)+1)*GGAR/2
+1400  CONTINUE
+      RETURN
+      END
+C
+C
+	SUBROUTINE GALERK2(X1,Y1,X2,Y2,GG1,GG2)
+C
+C	DETERMINAÇÃO DOS COEFICIENTES DA INTEGRAÇÃO DE G* DIRETA NO PRÓPRIO ELEMENTO, PONTO CSI NOS EXTREMOS
+C
+	REAL*8 SEP,GG1,GG2,X1,X2,Y1,Y2
 
-      sep=sqrt((x2-x1)**2+(y2-y1)**2)
-    	gg1=(sep**3)*(19.0-12*dlog(sep))/(1152*3.1415926) !encontrar origem dessa integral ???
-      gg2=(sep**3)*(5.0-4*dlog(sep))/(128*3.1415926)
-      continue
-      return
-      end
+      SEP=SQRT((X2-X1)**2+(Y2-Y1)**2)
+    	GG1=(SEP**3)*(19.0-12*DLOG(SEP))/(1152*3.1415926) !ENCONTRAR ORIGEM DESSA INTEGRAL ???
+      GG2=(SEP**3)*(5.0-4*DLOG(SEP))/(128*3.1415926)
+      CONTINUE
+      RETURN
+      END
 
 
-c
-c
-      subroutine inte1(xp,yp,x1,y1,x2,y2,gg)
-	implicit none
-	common ne,np,l,lec,imp,npi,nt
-	integer imp,i,ne,np,l,lec,npi,nt
-	real*8 gi(40),ome(40),gg,ax,x2,x1,bx,ay,y2,yp,aux,cos
-	real*8 y1,by,comp,cjac,pi2,xco(40),yco(40),ra,xp,sen   
+C
+C
+      SUBROUTINE INTE1(XP,YP,X1,Y1,X2,Y2,GG)
+	IMPLICIT NONE
+	COMMON NE,NP,L,LEC,IMP,NPI,NT
+	INTEGER IMP,I,NE,NP,L,LEC,NPI,NT
+	REAL*8 GI(40),OME(40),GG,AX,X2,X1,BX,AY,Y2,YP,AUX,COS
+	REAL*8 Y1,BY,COMP,CJAC,PI2,XCO(40),YCO(40),RA,XP,SEN   
  
 
 	 GI(1)=0.998237709710559340
@@ -347,7 +349,7 @@ c
        GI(40)=-GI(39)
 
 *
-*      pesos de Gauss
+*      PESOS DE GAUSS
 *
        OME(1)=0.0045212770985332
        OME(2)=OME(1)
@@ -391,144 +393,144 @@ c
        OME(40)=OME(39)
 
 
-	gg=0.
+	GG=0.
       
-      ax=(x2-x1)/2
-      bx=(x2+x1)/2
-      ay=(y2-y1)/2
-      by=(y1+y2)/2
-	comp=2*dsqrt(ax**2+ay**2)
-	cjac=comp/2
+      AX=(X2-X1)/2
+      BX=(X2+X1)/2
+      AY=(Y2-Y1)/2
+      BY=(Y1+Y2)/2
+	COMP=2*DSQRT(AX**2+AY**2)
+	CJAC=COMP/2
       SEN=(X1-X2)/COMP
       COS=(Y2-Y1)/COMP
       
-      pi2=6.28318
+      PI2=6.28318
       
-      do 40 i=1,40
-      xco(i)=ax*gi(i)+bx
-      yco(i)=ay*gi(i)+by
-      ra=dsqrt((xco(i)-xp)**2+(yco(i)-yp)**2)
-	aux=(xco(i)-xp)*cos+(yco(i)-yp)*sen !ri*ni
-c	gg=gg+(ra**2)*(4*dlog(ra)-1.)*aux*ome(i)*cjac/16+
-c	*(dexp(-ra)*(2.-ra))*aux*ome(i)*cjac															
-c	gg=gg+ra*(dlog(ra)+dexp(-ra))*aux*ome(i)*cjac
-c     radial simples
+      DO 40 I=1,40
+      XCO(I)=AX*GI(I)+BX
+      YCO(I)=AY*GI(I)+BY
+      RA=DSQRT((XCO(I)-XP)**2+(YCO(I)-YP)**2)
+	AUX=(XCO(I)-XP)*COS+(YCO(I)-YP)*SEN !RI*NI
+C	GG=GG+(RA**2)*(4*DLOG(RA)-1.)*AUX*OME(I)*CJAC/16+
+C	*(DEXP(-RA)*(2.-RA))*AUX*OME(I)*CJAC															
+C	GG=GG+RA*(DLOG(RA)+DEXP(-RA))*AUX*OME(I)*CJAC
+C     RADIAL SIMPLES
 
-c	gg=gg+ra*aux*ome(i)*cjac/3
-c
-c	função log
-	gg=gg+(ra**2)*(4*dlog(ra)-1.)*aux*ome(i)*cjac/16  !(r²/16)*[4*ln(r)-1]*(ri*ni)
-c      gg=gg+ra*aux*ome(i)*cjac/3+0.5*aux*ome(i)*cjac
-c	gg=gg+(dexp(-ra)*(2.-ra))*aux*ome(i)*cjac
-c	write(imp,*)i,'valor de gg na inte1=',gg
-  40   continue
-      return
-      end
-c
-c
-c
- !     subroutine inlo1(x1,y1,x2,y2,gg)
-	!implicit none
-	!common ne,np,l,lec,imp,npi,nt
-	!integer imp,ne,np,l,lec,npi,nt
-	!real*8 ax,x1,x2,ay,y1,y2,comp,aux,ra,gg,sen,cos
+C	GG=GG+RA*AUX*OME(I)*CJAC/3
+C
+C	FUNÇÃO LOG
+	GG=GG+(RA**2)*(4*DLOG(RA)-1.)*AUX*OME(I)*CJAC/16  !(R²/16)*[4*LN(R)-1]*(RI*NI)
+C      GG=GG+RA*AUX*OME(I)*CJAC/3+0.5*AUX*OME(I)*CJAC
+C	GG=GG+(DEXP(-RA)*(2.-RA))*AUX*OME(I)*CJAC
+C	WRITE(IMP,*)I,'VALOR DE GG NA INTE1=',GG
+  40   CONTINUE
+      RETURN
+      END
+C
+C
+C
+ !     SUBROUTINE INLO1(X1,Y1,X2,Y2,GG)
+	!IMPLICIT NONE
+	!COMMON NE,NP,L,LEC,IMP,NPI,NT
+	!INTEGER IMP,NE,NP,L,LEC,NPI,NT
+	!REAL*8 AX,X1,X2,AY,Y1,Y2,COMP,AUX,RA,GG,SEN,COS
  !
-	!ax=(x2-x1)/2
- !     ay=(y2-y1)/2
-	!comp=2*dsqrt(ax**2+ay**2)
+	!AX=(X2-X1)/2
+ !     AY=(Y2-Y1)/2
+	!COMP=2*DSQRT(AX**2+AY**2)
 	!SEN=(X1-X2)/COMP
  !     COS=(Y2-Y1)/COMP
- ! 	aux=(x2-x1)*cos+(y2-y1)*sen
- !     ra=dsqrt((x2-x1)**2+(y2-y1)**2)
- !     gg=aux/(2*6.28318)
+ ! 	AUX=(X2-X1)*COS+(Y2-Y1)*SEN
+ !     RA=DSQRT((X2-X1)**2+(Y2-Y1)**2)
+ !     GG=AUX/(2*6.28318)
  ! 
- !      write(imp,*)'finalmente entrei na inlo1'
-	!write(imp,*)'gg=',gg
- !     return
- !     end
-c
-c
-      subroutine inlo1(xp,yp,x1,y1,x2,y2,b1,b2)
-	implicit none
-	common ne,np,l,lec,imp,npi,nt
-	integer imp,ne,np,l,lec,npi,nt
-	real*8 x1,x2,y1,y2,xp,yp,sep
-	real*8 b1,b2,wrop1,wrop2,auxil
-      sep=sqrt((x2-x1)**2+(y2-y1)**2)
+ !      WRITE(IMP,*)'FINALMENTE ENTREI NA INLO1'
+	!WRITE(IMP,*)'GG=',GG
+ !     RETURN
+ !     END
+C
+C
+      SUBROUTINE INLO1(XP,YP,X1,Y1,X2,Y2,B1,B2)
+	IMPLICIT NONE
+	COMMON NE,NP,L,LEC,IMP,NPI,NT
+	INTEGER IMP,NE,NP,L,LEC,NPI,NT
+	REAL*8 X1,X2,Y1,Y2,XP,YP,SEP
+	REAL*8 B1,B2,WROP1,WROP2,AUXIL
+      SEP=SQRT((X2-X1)**2+(Y2-Y1)**2)
 	
-c	write(imp,*)'x1=',x1,'x2=',x2
-c 	write(imp,*)'y1=',y1,'y2=',y2
-c	write(imp,*)'xp=',xp,'yp=',yp
+C	WRITE(IMP,*)'X1=',X1,'X2=',X2
+C 	WRITE(IMP,*)'Y1=',Y1,'Y2=',Y2
+C	WRITE(IMP,*)'XP=',XP,'YP=',YP
 
 
-      wrop1=sqrt((xp-x1)**2+(yp-y1)**2)
-   	wrop2=sqrt((xp-x2)**2+(yp-y2)**2)
+      WROP1=SQRT((XP-X1)**2+(YP-Y1)**2)
+   	WROP2=SQRT((XP-X2)**2+(YP-Y2)**2)
 
-c	write(imp,*)'wrop1=',wrop1
-c	write(imp,*)'wrop2=',wrop2
+C	WRITE(IMP,*)'WROP1=',WROP1
+C	WRITE(IMP,*)'WROP2=',WROP2
 
-	if(wrop1.gt.wrop2)go to 11
-	auxil=wrop1
-	wrop1=wrop2
-	wrop2=auxil
-	b1=-(wrop1/(sep*6.28318))*(wrop1*dlog(wrop1)    ! DE ONDE VEIO ESSA EQUAÇÃO DE INTEGRAÇÃO.
-     *+wrop2*dlog(wrop2)-sep)-(1.0/(sep*2*6.28318))  
-     **((wrop2**2)*dlog(wrop2)-wrop1**2*dlog(wrop1)   ! O QUE É b1 E b2 ?
-     *+sep*sep/2-sep*wrop2)   
-     	b2=-(wrop2/(sep*6.28318))*(wrop1*dlog(wrop1)
-     *+wrop2*dlog(wrop2)-sep)+(1.0/(sep*2*6.28318))
-     **((wrop2**2)*dlog(wrop2)-wrop1**2*dlog(wrop1)
-     *+sep*sep/2-sep*wrop2)
-11    continue	
- 	b2=-(wrop1/(sep*6.28318))*(wrop1*dlog(wrop1)
-     *+wrop2*dlog(wrop2)-sep)-(1.0/(sep*2*6.28318))
-     **((wrop2**2)*dlog(wrop2)-wrop1**2*dlog(wrop1)
-     *+sep*sep/2-sep*wrop2)
-     	b1=-(wrop2/(sep*6.28318))*(wrop1*dlog(wrop1)
-     *+wrop2*dlog(wrop2)-sep)+(1.0/(sep*2*6.28318))
-     **((wrop2**2)*dlog(wrop2)-wrop1**2*dlog(wrop1)
-     *+sep*sep/2-sep*wrop2)
-  30  continue
-	return
-      end
+	IF(WROP1.GT.WROP2)GO TO 11
+	AUXIL=WROP1
+	WROP1=WROP2
+	WROP2=AUXIL
+	B1=-(WROP1/(SEP*6.28318))*(WROP1*DLOG(WROP1)    ! DE ONDE VEIO ESSA EQUAÇÃO DE INTEGRAÇÃO.
+     *+WROP2*DLOG(WROP2)-SEP)-(1.0/(SEP*2*6.28318))  
+     **((WROP2**2)*DLOG(WROP2)-WROP1**2*DLOG(WROP1)   ! O QUE É B1 E B2 ?
+     *+SEP*SEP/2-SEP*WROP2)   
+     	B2=-(WROP2/(SEP*6.28318))*(WROP1*DLOG(WROP1)
+     *+WROP2*DLOG(WROP2)-SEP)+(1.0/(SEP*2*6.28318))
+     **((WROP2**2)*DLOG(WROP2)-WROP1**2*DLOG(WROP1)
+     *+SEP*SEP/2-SEP*WROP2)
+11    CONTINUE	
+ 	B2=-(WROP1/(SEP*6.28318))*(WROP1*DLOG(WROP1)
+     *+WROP2*DLOG(WROP2)-SEP)-(1.0/(SEP*2*6.28318))
+     **((WROP2**2)*DLOG(WROP2)-WROP1**2*DLOG(WROP1)
+     *+SEP*SEP/2-SEP*WROP2)
+     	B1=-(WROP2/(SEP*6.28318))*(WROP1*DLOG(WROP1)
+     *+WROP2*DLOG(WROP2)-SEP)+(1.0/(SEP*2*6.28318))
+     **((WROP2**2)*DLOG(WROP2)-WROP1**2*DLOG(WROP1)
+     *+SEP*SEP/2-SEP*WROP2)
+  30  CONTINUE
+	RETURN
+      END
 
-      subroutine inter(fi,dfi,kode,nx)
-	implicit none
-	common ne,np,l,lec,imp,npi,nt
-	integer nx,kode(nx),i,np,k,l,m,locc(nx),l1,l2,nop(nx,3)
-	integer j,ne,nt,lec,imp,npi
-	real*8 ch,fi(nx),dfi(nx),sol(nx),dsolx(nx),dsoly(nx)
-	real*8 xxc(nx),yyc(nx),x(nx),y(nx),a1,a2,b1,b2,dx1,dx2
-	real*8 dy1,dy2,ex1,ex2,ey1,ey2,drumx,drumy,zog1,zog2
-	real*8 hcsi(nx,nx),xx(nx),yy(nx),rex(nx,nx)
-	real*8 doma(nx,nx),domb(nx,nx),gcsi(nx,nx),c1
-	real*8 a(nx,nx),b(nx,nx),domt(nx),cb(nx)
+      SUBROUTINE INTER(FI,DFI,KODE,NX)
+	IMPLICIT NONE
+	COMMON NE,NP,L,LEC,IMP,NPI,NT
+	INTEGER NX,KODE(NX),I,NP,K,L,M,LOCC(NX),L1,L2,NOP(NX,3)
+	INTEGER J,NE,NT,LEC,IMP,NPI
+	REAL*8 CH,FI(NX),DFI(NX),SOL(NX),DSOLX(NX),DSOLY(NX)
+	REAL*8 XXC(NX),YYC(NX),X(NX),Y(NX),A1,A2,B1,B2,DX1,DX2
+	REAL*8 DY1,DY2,EX1,EX2,EY1,EY2,DRUMX,DRUMY,ZOG1,ZOG2
+	REAL*8 HCSI(NX,NX),XX(NX),YY(NX),REX(NX,NX)
+	REAL*8 DOMA(NX,NX),DOMB(NX,NX),GCSI(NX,NX),C1
+	REAL*8 A(NX,NX),B(NX,NX),DOMT(NX),CB(NX)
 
-      do 20 i=1,np
-      if (kode(i)) 20,20,10 ! fluxo (1)-10 e potencial (0)-20
- 10   ch=fi(i) !é fluxo (dfi devolve o potencial calculado para o fi)
-      fi(i)=dfi(i)
-      dfi(i)=ch
- 20   continue !é potencial (está correto os pontos do contorno) mas, dfi devolve o potencial calculado para os pontos internos 
-      do 21 i=np+1,nt                                                                     !(pois q=0 pts internos)
-	ch=fi(i)
-      fi(i)=dfi(i)
-      dfi(i)=ch
- 21   continue
+      DO 20 I=1,NP
+      IF (KODE(I)) 20,20,10 ! FLUXO (1)-10 E POTENCIAL (0)-20
+ 10   CH=FI(I) !É FLUXO (DFI DEVOLVE O POTENCIAL CALCULADO PARA O FI)
+      FI(I)=DFI(I)
+      DFI(I)=CH
+ 20   CONTINUE !É POTENCIAL (ESTÁ CORRETO OS PONTOS DO CONTORNO) MAS, DFI DEVOLVE O POTENCIAL CALCULADO PARA OS PONTOS INTERNOS 
+      DO 21 I=NP+1,NT                                                                     !(POIS Q=0 PTS INTERNOS)
+	CH=FI(I)
+      FI(I)=DFI(I)
+      DFI(I)=CH
+ 21   CONTINUE
       
-	do 22 i=1,nt    !IMPRESSÃO POTENCIAL
-	write(imp,*)'fi=',fi(i)
-22    continue
-      return
-      end
-c
+	DO 22 I=1,NT    !IMPRESSÃO POTENCIAL
+	WRITE(IMP,*)'FI=',FI(I)
+22    CONTINUE
+      RETURN
+      END
+C
       
       
-      !Rotina de inversão da matriz (F-¹) 
+      !ROTINA DE INVERSÃO DA MATRIZ (F-¹) 
 	SUBROUTINE MATRIZINVERSA(A,N) 
-	implicit none
-	integer imp,k,n,j,i,ji,ki
-	real*8 lo(2000),mo(2000),biga,a(2000,2000),hold
+	IMPLICIT NONE
+	INTEGER IMP,K,N,J,I,JI,KI
+	REAL*8 LO(2000),MO(2000),BIGA,A(2000,2000),HOLD
 
 C     
 C      INVERTE A MATRIZ ATRAVES DO METODO PADRAO DE GAUSS-JORDAN
@@ -540,7 +542,7 @@ C          INVERSA RESULTANTE
 C      N - ORDEM DA MATRIZ A
 C      LO - VETOR DE TRABALHO
 C      MO - VETOR DE TRABALHO
-c     
+C     
       IMP=6
 C
 C
@@ -552,7 +554,7 @@ C
          BIGA=A(K,K)
          DO 10 J=K,N
          DO 10 I=K,N
-           IF(dabs(BIGA).GE.dabs(A(I,J))) GO TO 10
+           IF(DABS(BIGA).GE.DABS(A(I,J))) GO TO 10
            BIGA=A(I,J)
            LO(K)=I
            MO(K)=J
@@ -564,7 +566,7 @@ C
          IF(J.LE.K) GO TO 30
          DO 20 I=1,N
            HOLD=-A(K,I)
-c           JI=KI-K+J
+C           JI=KI-K+J
            A(K,I)=A(J,I)
            A(J,I)=HOLD
 20       CONTINUE
@@ -582,8 +584,8 @@ C
 C      DIVIDE COLUNA POR PIVOT NEGATIVO ( VALOR DOS ELEMENTOS DO PIVOT ESTAO
 C      CONTABILIZADOS EM BIGA)
 C
-50       IF((dabs(BIGA)).GT.0)  GO TO 60
-           WRITE (imp,160) K
+50       IF((DABS(BIGA)).GT.0)  GO TO 60
+           WRITE (IMP,160) K
            STOP
 60       DO 70 I=1,N
            IF(I.EQ.K) GO TO 70
@@ -635,8 +637,8 @@ C
        RETURN
 160    FORMAT(/,20X,'DURANTE A OPERACAO DE INVERSAO DA MATRIZ',/,20X,
      1'DETERMINANTE NULO FOI DETECTADO.  O PROCESSAMENTO FOI',/,20X,
-     1'INTERROMPIDO  O NUMERO DA LINHA OU COLUNA FOI :',I4,/,20x,
-     1'dentro da rotina MATRIZINVERSA - inversao de matriz')
+     1'INTERROMPIDO  O NUMERO DA LINHA OU COLUNA FOI :',I4,/,20X,
+     1'DENTRO DA ROTINA MATRIZINVERSA - INVERSAO DE MATRIZ')
       END
   
       

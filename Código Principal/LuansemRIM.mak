@@ -53,8 +53,8 @@ CLEAN :
 	-@erase ".\LuansemRIM.exe"
 	-@erase ".\LuansemRIM.obj"
 	-@erase ".\ABulcao.obj"
-	-@erase ".\LeituraeEscrita.obj"
 	-@erase ".\Resources_Gauss40.obj"
+	-@erase ".\LeituraeEscrita.obj"
 
 # ADD BASE F90 /Ox /c /nologo
 # ADD F90 /Ox /c /nologo
@@ -74,8 +74,8 @@ LINK32_FLAGS=kernel32.lib /nologo /subsystem:console /incremental:no\
 LINK32_OBJS= \
 	"$(INTDIR)/LuansemRIM.obj" \
 	"$(INTDIR)/ABulcao.obj" \
-	"$(INTDIR)/LeituraeEscrita.obj" \
-	"$(INTDIR)/Resources_Gauss40.obj"
+	"$(INTDIR)/Resources_Gauss40.obj" \
+	"$(INTDIR)/LeituraeEscrita.obj"
 
 "$(OUTDIR)\LuansemRIM.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -97,8 +97,8 @@ CLEAN :
 	-@erase ".\LuansemRIM.exe"
 	-@erase ".\LuansemRIM.obj"
 	-@erase ".\ABulcao.obj"
-	-@erase ".\LeituraeEscrita.obj"
 	-@erase ".\Resources_Gauss40.obj"
+	-@erase ".\LeituraeEscrita.obj"
 	-@erase ".\LuansemRIM.ilk"
 	-@erase ".\LuansemRIM.pdb"
 
@@ -121,8 +121,8 @@ LINK32_FLAGS=kernel32.lib /nologo /subsystem:console /incremental:yes\
 LINK32_OBJS= \
 	"$(INTDIR)/LuansemRIM.obj" \
 	"$(INTDIR)/ABulcao.obj" \
-	"$(INTDIR)/LeituraeEscrita.obj" \
-	"$(INTDIR)/Resources_Gauss40.obj"
+	"$(INTDIR)/Resources_Gauss40.obj" \
+	"$(INTDIR)/LeituraeEscrita.obj"
 
 "$(OUTDIR)\LuansemRIM.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -155,15 +155,6 @@ LINK32_OBJS= \
 ################################################################################
 # Begin Source File
 
-SOURCE=.\LeituraeEscrita.f
-
-"$(INTDIR)\LeituraeEscrita.obj" : $(SOURCE) "$(INTDIR)"
-
-
-# End Source File
-################################################################################
-# Begin Source File
-
 SOURCE=.\ABulcao.f
 
 "$(INTDIR)\ABulcao.obj" : $(SOURCE) "$(INTDIR)"
@@ -185,6 +176,15 @@ SOURCE=.\LuansemRIM.f
 SOURCE=.\Resources_Gauss40.f
 
 "$(INTDIR)\Resources_Gauss40.obj" : $(SOURCE) "$(INTDIR)"
+
+
+# End Source File
+################################################################################
+# Begin Source File
+
+SOURCE=.\LeituraeEscrita.f
+
+"$(INTDIR)\LeituraeEscrita.obj" : $(SOURCE) "$(INTDIR)"
 
 
 # End Source File
