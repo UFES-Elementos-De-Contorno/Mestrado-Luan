@@ -35,7 +35,7 @@ C      PROBLEMA DE RESPOSTA COM SOL ANALITICA IMPLEMENTADA
 C      !DIGITE A MALHA QUE SERÁ UTILIZADA														  !*
 C	 !NOME DA MATRIZ UTILIZADA 	         !PROBLEMA ENCONTRADO								  !*
 C      ARQENT = '3249ENG.TXT'		         !													  !*
-      ARQENT = '3249MEM.TXT'		         !													  !*
+C      ARQENT = '3249MEM.TXT'		         !													  !*
 C      ARQENT = '3264.TXT'		         !													  !*
 C      ARQENT = '3264ENG.TXT'		         !													  !*
 C      ARQENT = '3264MEM.TXT'			     !													  !*
@@ -54,7 +54,7 @@ C      ARQENT = '160484MEMB.TXT'           !NAO FINALIZA.										  !*
 C      ARQENT = '164144ENG.TXT'            !													  !*
 C      ARQENT = '164144MEM.TXT'	         !													  !*
 C      ARQENT = '164484ENG.TXT'            !ERRO DE MATRIZ SINGULAR							  !*
-C      ARQENT = '164484MEM.TXT'	         !													  !*
+      ARQENT = '164484MEM.TXT'	         !													  !*
 C      ARQENT = '320324.TXT'		         !													  !*
 C      ARQENT = '320576.TXT'               !ERRO DE MATRIZ SINGULAR							  !* 	
 !*************************************************************************************************
@@ -170,7 +170,7 @@ C	WRITE(*,*) 'ARQUIVO DE SAIDA   ===> ',FR,'W',TIMENOW(1),"-"
 C	*,DATE_TIME(5),"-",DATE_TIME(6),"-",DATE_TIME(7),"-",ARQENT
       
       CALL DATE_AND_TIME(TIMENOW(1), TIMENOW(2), TIMENOW(3), DATE_TIME)
-	ARQOUT = ARQENT//"-"//TIMENOW(1)//"-"//TIMENOW(2)//"-"//'.TXT'
+	ARQOUT = ARQENT//"SUJO-"//TIMENOW(1)//"-"//TIMENOW(2)//"-"//'.TXT'
 	WRITE(*,*) 'ARQUIVO DE SAIDA   ===> ',ARQOUT
       OPEN(IMP,FILE=ARQOUT)
 C
@@ -246,7 +246,7 @@ c     16X,'SECOND NODE',/)
       IMPLICIT NONE
 	COMMON NE,NP,L,LEC,IMP,NPI,NT
       REAL*8 FR,I_INIC,J_INIC
-	INTEGER CONT_UPRES,CONT_QPRES,CONT_INTF,NUM(NX),NUM_2(NX)
+	INTEGER CONT_UPRES,CONT_QPRES,CONT_INTF,NUM(2000),NUM_2(2000)
  	INTEGER NX,NOP(NX,3),IDUP(NX),L1,L3,I,NE,L2,L4,NP,IMP
 	INTEGER NPI,NT,J,NG,L,LEC,KODE(NX),CON1,CON2,K,N1,N2,PRINTE
 	INTEGER IUU,JUU,IQQ,JQQ,IUQ,JUQ,IQU,JQU,KA,KB
@@ -275,7 +275,7 @@ c     16X,'SECOND NODE',/)
 	REAL*8 TERM_QQ_10(1,1),TERM_QQ_11(1,1),TERM_QQ_12(1,1)
 	REAL*8 MATRIZA(1,1),MATRIZB(1,1),MATRIZC(1,1)
 	REAL*8 MATRIZD(1,1),MATRIZE(1,1)
-	REAL*8 MATRIZA_LINHA(NX,NX),MATRIZB_LINHA(NX,NX)
+	REAL*8 MATRIZA_LINHA(2000,2000),MATRIZB_LINHA(2000,2000)
 C	REAL*8 TERM_QU_1(NX,NX),TERM_QU_2(NX,NX),TERM_QU_3(NX,NX)
 C	REAL*8 TERM_QU_4(NX,NX),TERM_QU_5(NX,NX),TERM_QU_6(NX,NX)
 C	REAL*8 TERM_QU_7(NX,NX),TERM_QU_8(NX,NX),TERM_QU_9(NX,NX)
@@ -861,3 +861,5 @@ C     CALL SLNPD(CC,DFI,NT,NX)
 
       RETURN
       END
+
+
