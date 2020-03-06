@@ -30,7 +30,7 @@ C     PROBLEMA DE RESPOSTA COM SOLUÇÃO ANALITICA IMPLEMENTADA
 !*************************************************************************************************
 C      !DIGITE A MALHA QUE SERÁ UTILIZADA														  !*
 C	 !NOME DA MATRIZ UTILIZADA 	         !PROBLEMA ENCONTRADO								  !*
-      ARQENT = '3249ENG.TXT'		         !													  !*
+C      ARQENT = '3249ENG.TXT'		         !													  !*
 C      ARQENT = '3249MEM.TXT'		         !													  !*
 C      ARQENT = '3264.TXT'		         !													  !*
 C      ARQENT = '3264ENG.TXT'		         !													  !*
@@ -169,7 +169,12 @@ C      ARQENT = '320576MEM.TXT'            !													  !*
 !**********************************************************************************
 !*****************CHAMA A DATA ATUAL E ADICIONA NO ARQUIVO DE SAIDA****************
       CALL DATE_AND_TIME(TIMENOW(1), TIMENOW(2), TIMENOW(3), DATE_TIME)
-	ARQOUT = ARQENT//"-"//TIMENOW(1)//"-"//TIMENOW(2)//"-"//'.TXT'
+	
+	!MATRIZ AXB
+	!ARQOUT = ARQENT//"-COM-"//TIMENOW(1)//"-"//TIMENOW(2)//"-"//'.TXT'
+	!MATRIZ BXA
+	ARQOUT = ARQENT//"-REV-"//TIMENOW(1)//"-"//TIMENOW(2)//"-"//'.TXT'
+
 	WRITE(*,*) 'ARQUIVO DE SAIDA   ===> ',ARQOUT
       OPEN(IMP,FILE=ARQOUT)
 
@@ -807,7 +812,7 @@ C	WRITE(*,*) 'MATRIZB(',I,',',J,') = ',MATRIZB(I,J)
 C3107	CONTINUE
 
 	WRITE(IMP,*)'VALORES DE AUTOV DE ENTRADA ************************'
-	CALL AUTOV(MATRIZA_LINHA,MATRIZB_LINHA,4*JQQ,FI,DFI,1,4*NT,4*JUU)		
+	CALL AUTOV(MATRIZB_LINHA,MATRIZA_LINHA,4*JQQ,FI,DFI,1,4*NT,4*JUU)		
 
 
 
