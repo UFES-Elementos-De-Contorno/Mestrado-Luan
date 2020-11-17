@@ -1,0 +1,851 @@
+\documentclass[a4paper,12p]{article}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+\usepackage[a4paper, inner=0.7cm, outer=1.7cm, top=2cm, bottom=2cm, bindingoffset=1.2cm]{geometry}
+\usepackage[portuguese]{babel}
+\usepackage{blindtext}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{index}
+\usepackage{multicol,float,listings}
+\usepackage{setspace}
+\usepackage[super]{nth}
+\usepackage{amsmath} 
+\usepackage[utf8]{inputenc}
+\usepackage{cases}
+\usepackage{amssymb}
+\newcommand{\dd}[1]{\mathrm{d}#1}
+\makeindex
+
+\begin{document}
+	
+	\title{\LARGE{\textbf{Resumo da Pesquisa PPGEM}}}
+	\author{Luan Henrique Sirtoli}
+	\date{03 de Abril de 2019}
+	\maketitle
+	
+	%\tableofcontents
+	
+	%\pagenumbering{roman}
+	\setcounter{page}{1}
+
+	%\chapter{Resumo da Pesquisa PPGEM}
+	\section{Início}
+	A presente pesquisa fundamenta-se no problema encontrado no artigo [1], que será discorrido no capítulo 2 deste resumo. No capítulo 3 iremos introduzir a nova pesquisa sendo abordada, e os avanços encontrados até a presente data.
+	
+	
+	\section{Fundamentos da Pesquisa}
+	Utilizando conceitos utilizados nos artigos [2], [3], [4], [5] e [6], iniciamos o resumo introduzindo a Equação de Helmholtz em forma de auto-valor, utilizando notação indicial.
+	
+	\begin{equation}
+	u_{,ii}(X) = -\lambda \mathnormal{u(X)}
+	\end{equation}
+
+	Nessa equação, o autovalor $\lambda$ é um escalar, tendo o quadrado do mesmo, o valor de $w/k$. Assim, num domínio $\Omega(X)$ bidimensional e isotrópico, onde $X=X(x_{1},x_{2})$ limitado por um contorno $\Gamma(X)$.
+	
+	A formulação do Método dos Elementos de Contorno \textbf{(MEC)} se inicia com o estabelecimento de uma equação integral no qual uma função auxiliar $b^{*}(\xi)$ é utilizada, assim, formando a equação:
+	
+	\begin{equation}
+	\int_{\Omega}^{} u_{,ii}(X) b^{*}(\xi;X) \dd{\Omega(X)} = -\lambda \int_{\Omega}^{} \mathnormal{u(X)} b^{*}(\xi;X) \dd{\Omega(X)}
+	\end{equation}
+	
+	Neste modelo proporsto, $b^{*}(\xi;X)$ equivale à Solução Fundamental de Laplace subtraida de uma função adicional $G^{*}(\xi;X)$, assim:
+	
+	\begin{equation}
+	b^{*}(\xi;X) = u^{*}(\xi;X) - \lambda G^{*}(\xi;X)
+	\end{equation}
+	
+	Como conhecido no MEC, os valores desses termos são:
+	
+	\begin{equation}
+	u^{*}(\xi;X) = -\frac{1}{2\pi} \ln(r(\xi;X))
+	\end{equation}
+	
+	\begin{equation}
+	G^{*}(\xi;X) = -\frac{1}{8\pi} [r^{2}(\xi;X)-\ln(r(\xi;X))]
+	\end{equation}
+	
+	A função $G^{*}(\xi;X)$ é o Tensor de Galerkin, associado ao problema de LaPlace. Assim:
+	
+	\begin{equation}
+	G^{*}_{,ii}(\xi;X) = u^{*}(\xi;X)
+	\end{equation}
+	
+	Assim, a equação integral dada na Equação (2) será de tal forma:
+	
+	\begin{equation}
+	\begin{gathered}
+	\int_{\Omega}^{} u_{,ii}(X) u^{*}(\xi;X) \dd{\Omega(X)} 
+	-\lambda \int_{\Omega}^{} u_{,ii}(X) G^{*}(\xi;X) \dd{\Omega(X)}
+	\\
+	=-\lambda \int_{\Omega}^{} u(X) u^{*}(\xi;X) \dd{\Omega(X)}
+	+\lambda \int_{\Omega}^{} u(X) \lambda G^{*}(\xi;X) \dd{\Omega(X)}
+	\end{gathered}
+	\end{equation}
+	
+	Para deduzirmos a forma inversa da integral de contorno, faremos a integração por partes e aplicamos o Teorema da Divergência, como previamente ensinados no MEC. Esses procedimentos são aplicados em ambos os lados da Equação (7), de forma que dois termos da integral se cancelam, resultando:
+	
+	\begin{equation}
+	\begin{gathered}
+	c(\xi)u(\xi)
+	+        \int_{\Gamma}^{} u(X) q^{*}(\xi;X) \dd{\Gamma(X)} 
+	-		 \int_{\Gamma}^{} q(X) u^{*}(\xi;X) \dd{\Gamma(X)}
+	\\
+	+\lambda (
+	-\int_{\Gamma}^{} q(X) G^{*}(\xi;X) \dd{\Gamma(X)}
+	+\int_{\Gamma}^{} u(X) S^{*}(\xi;X) \dd{\Gamma(X)}
+	)
+	=
+	\lambda^{2} \int_{\Omega}^{} u(X) G^{*}(\xi;X) \dd{\Omega(X)}
+	\end{gathered}
+	\end{equation}
+	
+	A equação anterior introduziu duas novas funções, nas quais são:
+	
+	\begin{equation}
+	q^{*}(\xi;X) = u^{*}_{,i}(\xi;X) n_{i}(X) = -\frac{1}{2\pi r(\xi;X)} r_{i}(\xi;X) n_{i}(X)
+	\end{equation}
+	
+	\begin{equation}
+	S^{*}(\xi;X) = G^{*}_{,i}(\xi;X) n_{i}(X) = -\frac{[2 \ln(r(\xi;X)) -1]}{8\pi} r_{i}(\xi;X) n_{i}(X)
+	\end{equation}
+	
+	Ainda assim, uma integral de domínio persiste no lado direito da Equação (8). Assim, é utilizado o DIBEM (Direct Interpolation Boundary Element Technique with Radial Basis Functions), para resolve-la. Assim, o núcleo completo dessa integral de domínio será aproximado utilizando funções de base radial $F^{j}  ( \textbf{X}^{\textbf{j}}; \textbf{X}) $, onde o argumento é composto pela distância Euclidiana entre os pontos base $\textbf{X}^{\textbf{j}}$ e os pontos de domínio \textbf{X}.
+	
+	O núcleo agora é não-singular, quando os pontos fonte são coincidentes com os pontos de campo, e consequentemente, nenhum precedimento de regularização é necessário. De forma parecida ao DRBEM (Dual Reciprocity Boudary Element Method), o método proposto transforma a integral d domínio utilizando uma função de interpolação primitiva $\Psi^{j}_{,ii}(\textbf{X};\textbf{X}^{j})$, na qual sua relação com a função radial $F^{j}(\textbf{X};\textbf{X}^{j})$ é apresentada abaixo:
+	
+	\begin{equation}
+	\begin{gathered}
+  	\int_{\Omega}^{} u(X) G^{*}(\xi;X) \dd{\Omega(X)}
+   	= 
+	{}^{\xi}\alpha^{j} \int_{\Omega}^{} F^{j}(X;X^{j}) \dd{\Omega(X)}
+	= 
+	{}^{\xi}\alpha^{j} \int_{\Omega}^{} \Psi^{j}_{,ii}(\textbf{X};\textbf{X}^{j}) \dd{\Omega(X)}
+	\\
+	=
+	{}^{\xi}\alpha^{j} \int_{\Gamma}^{} \Psi^{j}_{,ii}(\textbf{X};\textbf{X}^{j}) n_{i}\dd{\Gamma(X)}
+	=
+	{}^{\xi}\alpha^{j} \int_{\Gamma}^{} \eta^{j}(\textbf{X};\textbf{X}^{j}) \dd{\Gamma(X)}
+	\end{gathered}
+	\end{equation}
+	
+	Para cada ponto fonte $\xi$ dado pela Equação (11), é feita uma leitura de todos os pontos base $\textbf{X}^{j}$ em relação aos pontos do domínio \textbf{X}, com peso dos coeficientes ${}^{\xi}\alpha^{j}$. Deve-se lembrar que o numero de pontos base $\textbf{X}^{j}$ devem ser iguais ao número de nós no contorno.
+	
+	Após os procedimentos de discretização padrão do BEM, pode se escrever uma equação matricial à partir da Equação (8) da seguinte forma:
+	
+	\begin{equation}
+	\begin{gathered}
+	\begin{bmatrix}
+	H_{cc}  & \cdots  & 0_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	H_{ic} & \cdots & I_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	u_{c}\\
+	\vdots\\
+	u_{i}\\
+	\end{bmatrix}
+	-
+	\begin{bmatrix}
+	G_{cc}  & \cdots  & 0_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	G_{ic} & \cdots & 0_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	q_{c}\\
+	\vdots\\
+	q_{i}\\
+	\end{bmatrix}
+	+\lambda
+	\begin{bmatrix}
+	W_{cc}  & \cdots  & 0_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	W_{ic} & \cdots & 0_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	u_{c}\\
+	\vdots\\
+	u_{i}\\
+	\end{bmatrix}
+	\\
+	-\lambda
+	\begin{bmatrix}
+	S_{cc}  & \cdots  & 0_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	S_{ic} & \cdots & 0_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	q_{c}\\
+	\vdots\\
+	q_{i}\\
+	\end{bmatrix}
+	=
+	\lambda^{2}
+	\begin{bmatrix}
+	{}^{1}\alpha^{1} & \cdots & {}^{1}\alpha^{m} \\
+	\vdots  & \ddots & \vdots \\
+	{}^{n}\alpha^{1} & \cdots & {}^{n}\alpha^{m} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	N_{1}\\
+	\vdots\\
+	N_{n}\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	A_{1}\\
+	\vdots\\
+	A_{n}\\
+	\end{bmatrix}
+	\end{gathered}
+	\end{equation}
+	
+	Na equação matricial (12):
+	\begin{itemize}
+		\item Os coeficientes $H_{ij}$ e $G_{ij}$ são referentes, respectivamente, às integrações $u^{*}(\xi;X)$ e $q^{*}(\xi;X)$, no contorno.
+		\item Os coeficientes $W_{ij}$ e $S_{ij}$ são referentes, respectivamente, às integrações $G^{*}(\xi;X)$ e sua derivativa normal $G^{*}_{,i}(\xi;X)$, no contorno.
+		\item O vetor $N_{j}$ representa a integração da função radial auxiliar $\eta^{j}(\textbf{X}^{j};\textbf{X})$.
+	\end{itemize}
+	
+	Para problemas de Helmholtz, o DIBEM deve considerar os valores nodais do potencial $u(X)$ explicitamente, porém, na Equação (6) os valores potenciais nodais estão implicitos no vetor $A_{j}$. Esse potencial $U(X)$ deve ser explicito para permitir a construção da matriz de inércia.
+	
+	Desta forma, o vetor $A_{j}$ deve ser reescrito da seguinte forma:
+	
+	\begin{equation}
+	\begin{gathered}
+	A_{\xi} = 
+	\begin{bmatrix}
+	N_{1}  & \cdots  & N_{m} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	{}^{\xi}\alpha^{1}\\
+	\vdots \\
+	{}^{\xi}\alpha^{m}\\
+	\end{bmatrix}
+	\end{gathered}
+	\end{equation}
+	
+	Os coeficientes ${}^{\xi}\alpha^{j}$ do ultimo vetor podem ser calculados resolvendo um sistema de equações algébricas, da seguinte forma:
+	
+	\begin{equation}
+	[{}^{\xi}\alpha] = [F]^{-1}[{}^{\xi}\Lambda][F]\alpha = [F]^{-1}[{}^{\xi}\Lambda][u]
+	\end{equation}
+	
+	Deve ser ressaltado, que ao utilizar o DIBEM, a solução fundamental compõe o núcleo a ser interpolado. Na equação (14) a matriz diagonal ${}^{\xi}\Lambda$ é composta pelo Tensor de Galerkin $G^{*}(\xi;X)$.
+	
+	\pagebreak
+	
+	Após a implementação do algebrismo matricial, o sistema de elementos de contorno final pode ser escrito da seguinte forma:
+	
+	\begin{equation}
+	\begin{gathered}
+	\begin{bmatrix}
+	H_{cc}  & \cdots  & 0_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	H_{ic} & \cdots & I_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	u_{c}\\
+	\vdots\\
+	u_{i}\\
+	\end{bmatrix}
+	-
+	\begin{bmatrix}
+	G_{cc}  & \cdots  & 0_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	G_{ic} & \cdots & 0_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	q_{c}\\
+	\vdots\\
+	q_{i}\\
+	\end{bmatrix}
+	+\lambda
+	\begin{bmatrix}
+	W_{cc}  & \cdots  & 0_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	W_{ic} & \cdots & 0_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	u_{c}\\
+	\vdots\\
+	u_{i}\\
+	\end{bmatrix}
+	\\
+	-\lambda
+	\begin{bmatrix}
+	S_{cc}  & \cdots  & 0_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	S_{ic} & \cdots & 0_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	q_{c}\\
+	\vdots\\
+	q_{i}\\
+	\end{bmatrix}
+	=
+	\lambda^{2}
+	\begin{bmatrix}
+	M_{cc} & \cdots & M_{ci} \\
+	\vdots  & \ddots & \vdots \\
+	M_{ic} & \cdots & M_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	u_{c}\\
+	\vdots\\
+	u_{i}\\
+	\end{bmatrix}
+	\end{gathered}
+	\end{equation}
+	\\
+	
+	
+	E é a partir da Equação (15) que iniciamos o trabalho da presente pesquisa.	
+
+	\section{Pesquisa Atual}
+	Após a definição da Equação de Helmholtz (15), modelamos a equação para um problema de autovalor em vibração livre, obtendo assim, a seguinte equação:
+	
+	\begin{equation}
+	\begin{gathered}
+	\begin{bmatrix}
+	H_{cc}  & H_{ci} \\
+	H_{ic} & H_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\overline{u}\\
+	u\\
+	\end{bmatrix}
+	-
+	\begin{bmatrix}
+	G_{cc}  & G_{ci} \\
+	G_{ic} & G_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	q\\
+	\overline{q}\\
+	\end{bmatrix}
+	+\lambda
+	\begin{bmatrix}
+	W_{cc} & W_{ci} \\
+	W_{ic} & W_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\overline{u}\\
+	u\\
+	\end{bmatrix}
+	\\
+	-\lambda
+	\begin{bmatrix}
+	S_{cc} & S_{ci} \\
+	S_{ic} & S_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	q\\
+	\overline{q}\\
+	\end{bmatrix}	
+	=
+	\lambda^{2}
+	\begin{bmatrix}
+	M_{cc} & M_{ci} \\
+	M_{ic} & M_{ii} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\overline{u}\\
+	u\\
+	\end{bmatrix}
+	\end{gathered}
+	\end{equation}
+	
+	Como os valores prescritos para vibração livre são iguais a 0, obtemos então, o seguinte sistema de equações.
+	
+	\begin{numcases}{}
+		H_{ci} u - G_{cc} q + \lambda W_{ci} u - \lambda S_{cc} q = \lambda^{2} M_{ci} u \\ 
+		H_{ii} u - G_{ic} q + \lambda W_{ii} u - \lambda S_{ic} q = \lambda^{2} M_{ii} u
+	\end{numcases}
+
+	A partir da Equação (17), isolando o termo $q$, obtemos:
+	
+	\begin{equation}
+		q = (G_{cc}^{-1} + \frac{1}{\lambda} S_{cc}^{-1})(H_{ci} u + \lambda W_{ci} u - \lambda^{2} M_{ci} u)
+	\end{equation}
+	
+	Chamamos então o termo $H_{ci} + \lambda W_{ci} - \lambda^{2} M_{ci}$ de $Z$ e substituímos na Equação (19), assim:
+	
+	\begin{equation}
+	Z = H_{ci} + \lambda W_{ci} - \lambda^{2} M_{ci}
+	\end{equation}
+	
+	\begin{equation}
+	q = (G_{cc}^{-1} + \frac{1}{\lambda} S_{cc}^{-1})(Z u)
+	\end{equation}
+	
+	Substituindo o termo $q$ da Equação (21) na Equação (18), obtemos:
+	
+	\begin{equation}
+	H_{ii} u - G_{ic} (G_{cc}^{-1} + \frac{1}{\lambda} S_{cc}^{-1})(Z u) + \lambda W_{ii} u - \lambda S_{ic} (G_{cc}^{-1} + \frac{1}{\lambda} S_{cc}^{-1})(Z u) = \lambda^{2} M_{ii} u
+	\end{equation}
+	
+	Fazendo a distribuição dos termos, chegamos na seguinte equação:
+	
+	\begin{equation}
+	H_{ii} u 
+	- G_{ic} G_{cc}^{-1} (Z u) 
+	+ \frac{1}{\lambda} G_{ic} S_{cc}^{-1}(Z u) 
+	+ \lambda W_{ii} u 
+	- \lambda S_{ic} G_{cc}^{-1}(Z u)
+	- S_{ic} S_{cc}^{-1}(Z u)
+	= \lambda^{2} M_{ii} u
+	\end{equation}
+	
+	Para simplificar, chamamos os termos:
+	\begin{itemize}
+		\item $G_{ic} G_{cc}^{-1}$ de $T_{ic}$;
+		\item $G_{ic} S_{cc}^{-1}$ de $V_{ic}$;
+		\item $S_{ic} G_{cc}^{-1}$ de $Y_{ic}$;
+		\item $S_{ic} S_{cc}^{-1}$ de $Z^{'}_{ic}$;
+	\end{itemize}
+	
+	Obtendo assim, a seguinte equação:
+	
+	\begin{equation}
+						H_{ii} u 
+	- 					T_{ic}(Z u) 
+	+ \frac{1}{\lambda} V_{ic}(Z u) 
+	+ 		   \lambda  W_{ii} u 
+	-          \lambda  Y_{ic}(Z u)
+	- 					Z^{'}_{ic}(Z u)
+	= \lambda^{2} M_{ii} u
+	\end{equation}
+	
+	Assim, distribuindo $Z$ na Equação (24):
+	
+	\begin{equation}
+	\begin{gathered}
+	H_{ii} u 
+	- 					   T_{ic}(H_{ci} u) 
+	- 		   \lambda 	   T_{ic}(W_{ci} u) 
+	+ 		   \lambda^{2} T_{ic}(M_{ci} u) 
+	+ \frac{1}{\lambda}    V_{ic}(H_{ci} u) 
+	+				       V_{ic}(W_{ci} u) 
+	- 		   \lambda     V_{ic}(M_{ci} u) 
+	\\
+	+ 		   \lambda     W_{ii} u 
+	-          \lambda     Y_{ic}(H_{ci} u)
+	-          \lambda^{2} Y_{ic}(W_{ci} u)
+	+          \lambda^{3} Y_{ic}(M_{ci} u)
+	- 				       Z^{'}_{ic}(H_{ci} u)
+	- 		   \lambda	   Z^{'}_{ic}(W_{ci} u)
+	+ 		   \lambda^{2} Z^{'}_{ic}(M_{ci} u)
+	= 		   \lambda^{2} M_{ii} u
+	\end{gathered}
+	\end{equation}
+	
+	Isolando os termos $\lambda$ e $u$:
+	
+	\begin{equation}
+	\begin{gathered}
+	u (H_{ii}  -  T_{ic} H_{ci}  +  V_{ic} W_{ci}  -  Z^{'}_{ic} H_{ci})
+	\\
+	+ \lambda u (-T_{ic} W_{ci}  -V_{ic} M_{ci}  -Y_{ic} H_{ci}  -Z^{'}_{ic} W_{ci}  +W_{ii})
+	\\
+	+ \lambda^{2} u (T_{ic} M_{ci}  -Y_{ic} W_{ci}  +Z^{'}_{ic} M_{ci}  -M_{ii})
+	\\
+	+ \lambda^{3} u (Y_{ic} M_{ci})
+	+ \frac{u}{\lambda} (V_{ic} H_{ci})
+	=
+	0
+	\end{gathered}
+	\end{equation}
+	
+	Assim, multiplicamos toda a Equação (26) por $\lambda$, e substituímos os seguintes termos:
+	
+	\begin{itemize}
+		\item $V_{ic} H_{ci}$ por $A$;
+		\item $H_{ii}-T_{ic} H_{ci}+V_{ic} W_{ci}-Z^{'}_{ic} H_{ci}$ por $B$;
+		\item $-T_{ic} W_{ci}-V_{ic} M_{ci}-Y_{ic} H_{ci}-Z^{'}_{ic} W_{ci}+W_{ii}$ por $C$;
+		\item $T_{ic} M_{ci}-Y_{ic} W_{ci}+Z^{'}_{ic} M_{ci}-M_{ii}$ por $D$;
+		\item $Y_{ic} M_{ci}$ por $E$;
+	\end{itemize}
+	
+	Assim, obtemos a seguinte equação:
+
+	\begin{equation}
+	\begin{gathered}
+	u (A)
+	+ \lambda u (B)
+	+ \lambda^{2} u (C)
+	+ \lambda^{3} u (D)
+	+ \lambda^{4} u (E)
+	=
+	0
+	\end{gathered}
+	\end{equation}
+	\begin{center}
+	$\therefore$
+	\end{center}
+	\begin{equation}
+	\begin{gathered}
+	(A + \lambda B + \lambda^{2} C + \lambda^{3} D + \lambda^{4} E) u =	0
+	\end{gathered}
+	\end{equation}
+	
+	\subsection{Proposição de Przeminiecky}
+	
+	De acordo com Przeminiecky [7], No capitulo 12.4 de seu livro, o seguinte sistema abaixo se enquadra como um problema de autovalor quadrático:
+	
+	\begin{equation}
+	{\textbf{M}} \ddot{{\textbf{U}}} + {{\textbf{C}}} \dot{{\textbf{U}}} + {\textbf{KU}} = \textbf{{0}}
+	\end{equation}
+	
+	Para esse sistema, pose-se assumir uma solução tal:
+	
+	\begin{equation}
+	\textbf{U} = \textbf{q}e^{pt}
+	\end{equation}
+	
+	Onde $p$ é complexo. Assim, a Equação (29) se torna:
+	
+	\begin{equation}
+	(p^{2} \textbf{M} + p \textbf{\textbf{C}} + \textbf{K})\textbf{q} = \textbf{0}
+	\end{equation}
+	
+	Que possui soluções diferentes de 0 para $\textbf{q}$ desde que:
+	
+	\begin{equation}
+	|p^{2} \textbf{M} + p \textbf{\textbf{C}} + \textbf{K}| = \textbf{0}
+	\end{equation}
+	
+	Para sistemas com diversos graus de liberdade, a formulação das Equações (31) e (32) se torna inconveniente. Assim, utilizando um método proposto por Duncan, podemos reduzir essas equações à uma forma padrão. Assim, combinaremos a Equação (29) com a identidade da Equação (33), para obtermos a Equação matricial (35):
+	
+	%Com a Equação acima, pode-se montar o seguinte sistema de equações, então: 
+	
+	\begin{numcases}{}
+	\textbf{M} \dot{\textbf{U}} - \textbf{M} \dot{\textbf{U}} = \textbf{0} \\ 
+	\textbf{M} \ddot{\textbf{U}} + \textbf{C} \dot{\textbf{U}} + \textbf{K}\textbf{U} = \textbf{0}
+	\end{numcases}
+	
+	%Esse sistema pode ser resolvido da seguinte forma:
+%	{\setstretch{0.92}
+	\begin{equation}
+	\begin{gathered}
+	\begin{bmatrix}
+	\textbf{0} & \textbf{M} \\
+	\textbf{M} & \textbf{C} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\ddot{\textbf{U}}\\
+	\dot{\textbf{U}}\\
+	\end{bmatrix}
+	+
+	\begin{bmatrix}
+	\textbf{-M} & \textbf{0} \\
+	\textbf{0} & \textbf{K} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\dot{\textbf{U}}\\
+	\textbf{U}\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	{\textbf{0}}\\
+	{\textbf{0}}\\
+	\end{bmatrix}
+	\end{gathered}
+	\end{equation}
+	
+	Assim, definimos as seguintes matrizes, sendo:
+	
+	\begin{equation}
+	\begin{gathered}
+	\textbf{A} =
+	\begin{bmatrix}
+	\textbf{0} & \textbf{M} \\
+	\textbf{M} & \textbf{C} \\
+	\end{bmatrix};
+	\textbf{B} =
+	\begin{bmatrix}
+	\textbf{-M} & \textbf{0} \\
+	\textbf{0} & \textbf{K} \\
+	\end{bmatrix};
+	\dot{\textbf{U}}=
+	\begin{bmatrix}
+	\ddot{\textbf{U}}\\
+	\dot{\textbf{U}}\\
+	\end{bmatrix};
+	\textbf{U}=
+	\begin{bmatrix}
+	\dot{\textbf{U}}\\
+	\textbf{U}\\
+	\end{bmatrix}
+	\end{gathered}
+	\end{equation}
+	
+	Assim, essa equação (35) pode ser reescrita da forma:
+
+	\begin{equation}
+	\textbf{A} \ddot{\textbf{U}} + \textbf{BU} = \textbf{0}
+	\end{equation}
+	
+	Agora, utilizando a Equação (30), a Equação 36 se torna:
+	
+	\begin{equation}
+	(p\textbf{A} + \textbf{B})v = \textbf{0}
+	\end{equation}
+	
+	Sendo essa ultima, uma forma muito mais simples de se resolver um problema de autovalor, por algum algoritmo computacional.
+	
+	\subsection{Analogia Para Nosso Sistema}
+	
+	Com a Proposição de Przeminiecky bem estruturada, comparando as Equações (28) e (31), pode-se então perceber que para nosso sistema, as seguintes são verdade:
+	
+	\begin{itemize}
+		\item $p$ equivale à $\lambda$
+		\item $q$ equivale à $u$
+	\end{itemize}
+	
+	, fazer analogamente, o seguinte sistema de Equações:
+	
+	\begin{numcases}{}
+	A \ddddot{u} - A \ddddot{u} + \frac{C}{2}\dot{u} - \frac{C}{2}\dot{u} \\ 
+	A \ddddot{u} + B \dddot{u} + \frac{C}{2}\ddot{u} + \frac{C}{2}\dot{u} - \frac{C}{2}\dot{u} + D \dot{u} + E u = 0 
+	\end{numcases}
+	
+	Assim, pode-se organizar o sistema em duas únicas matrizes:
+	
+	\begin{equation}
+	\begin{gathered}
+	\begin{bmatrix}
+	0&A&0&0 \\
+	A&B&0&0 \\
+	0&0&0&\frac{C}{2} \\
+	0&0&\frac{C}{2}&D \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\ddddot{u}\\
+	\dddot{u}\\
+	\ddot{u}\\
+	\dot{u}\\
+	\end{bmatrix}
+	+
+	\begin{bmatrix}
+	-A&0&0&0 \\
+	0&\frac{C}{2}&0&0 \\
+	0&0&\frac{C}{2}&0 \\
+	0&0&0&e \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\dddot{u}\\
+	\ddot{u}\\
+	\dot{u}\\
+	u\\
+	\end{bmatrix}
+	=
+	0
+	\end{gathered}
+	\end{equation}
+	
+	Como em nosso sistema temos que:
+	
+	\begin{equation}
+	u=v e^{\lambda t}
+	\end{equation}
+	
+	Portando, a Equação (41) se torna:
+	
+	\begin{equation}
+	\begin{gathered}
+	\begin{bmatrix}
+	0&A&0&0 \\
+	A&B&0&0 \\
+	0&0&0&\frac{C}{2} \\
+	0&0&\frac{C}{2}&D \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\lambda^{4} ve^{\lambda t}\\
+	\dddot{u}\\
+	\ddot{u}\\
+	\dot{u}\\
+	\end{bmatrix}
+	+
+	\begin{bmatrix}
+	-A&0&0&0 \\
+	0&\frac{C}{2}&0&0 \\
+	0&0&\frac{C}{2}&0 \\
+	0&0&0&e \\
+	\end{bmatrix}
+	\begin{bmatrix}
+	\dddot{u}\\
+	\ddot{u}\\
+	\dot{u}\\
+	u\\
+	\end{bmatrix}
+	=
+	0
+	\end{gathered}
+	\end{equation}
+	
+	
+	Assim, definimos as seguintes matrizes, sendo:
+	
+		\begin{equation}
+	\begin{gathered}
+	\textbf{A}^{\textbf{'}} =
+	\begin{bmatrix}
+	0&A&0&0 \\
+	A&B&0&0 \\
+	0&0&0&\frac{C}{2} \\
+	0&0&\frac{C}{2}&D \\
+	\end{bmatrix};
+	\textbf{B}^{\textbf{'}}=
+	\begin{bmatrix}
+	-A&0&0&0 \\
+	0&\frac{C}{2}&0&0 \\
+	0&0&\frac{C}{2}&0 \\
+	0&0&0&e \\
+	\end{bmatrix};
+	\dot{\textbf{u}} =
+	\begin{bmatrix}
+	\ddddot{u}\\
+	\dddot{u}\\
+	\ddot{u}\\
+	\dot{u}\\
+	\end{bmatrix};
+	\textbf{u} =
+	\begin{bmatrix}
+	\dddot{u}\\
+	\ddot{u}\\
+	\dot{u}\\
+	u\\
+	\end{bmatrix};
+	\end{gathered}
+	\end{equation}
+	
+	Assim, a Equação matricial (40) se torna
+	
+	\begin{equation}
+	\textbf{A}^{\textbf{'}}\dot{\textbf{u}} + \textbf{B}^{\textbf{'}}{\textbf{u}} = \textbf{0}
+	\end{equation}
+	
+	Portanto, a Equação (42) se torna:
+
+	\begin{equation}
+	v e^{\lambda t}(\lambda\textbf{A}^{\textbf{'}} 
+	+ \textbf{B}^{\textbf{'}}){\textbf{w}} = \textbf{0}
+	\end{equation}
+	\begin{center}
+	$\therefore$
+	\end{center}
+	\begin{equation}
+	(w\textbf{A}^{\textbf{'}} 
+	+ \textbf{B}^{\textbf{'}}){\textbf{w}} = \textbf{0}
+	\end{equation}
+	
+%	\begin{equation}
+%	\begin{gathered}
+%	w
+%	\begin{bmatrix}
+%	0&A&0&0 \\
+%	A&B&0&0 \\
+%	0&0&0&\frac{C}{2} \\
+%	0&0&\frac{C}{2}&D \\
+%	\end{bmatrix}
+%	\begin{bmatrix}
+%	w^{3} v e^{wt}\\
+%	w^{2} v e^{wt}\\
+%	w v e^{wt}\\
+%	v e^{wt}\\
+%	\end{bmatrix}
+%	+
+%	\begin{bmatrix}
+%	-A&0&0&0 \\
+%	0&\frac{C}{2}&0&0 \\
+%	0&0&\frac{C}{2}&0 \\
+%	0&0&0&e \\
+%	\end{bmatrix}
+%	\begin{bmatrix}
+%	w^{3} v e^{wt}\\
+%	w^{2} v e^{wt}\\
+%	w v e^{wt}\\
+%	v e^{wt}\\
+%	\end{bmatrix}
+%	=
+%	0
+%	\end{gathered}
+%	\end{equation}
+%	\begin{center}
+%		$\therefore$
+%	\end{center}
+
+	De forma expandida, a Equação (45) tem a seguinte aparência:
+	
+	\begin{equation}
+	\begin{gathered}
+	\left(w 
+	\begin{bmatrix}
+	0&A&0&0 \\
+	A&B&0&0 \\
+	0&0&0&\frac{C}{2} \\
+	0&0&\frac{C}{2}&D \\
+	\end{bmatrix}
+	+
+	\begin{bmatrix}
+	-A&0&0&0 \\
+	0&\frac{C}{2}&0&0 \\
+	0&0&\frac{C}{2}&0 \\
+	0&0&0&e \\
+	\end{bmatrix}\right)
+	\begin{bmatrix}
+	w^{3}\\
+	w^{2}\\
+	w\\
+	1\\
+	\end{bmatrix}
+	=
+	0
+	\end{gathered}
+	\end{equation}
+	
+	\subsection{Ponto Atual}
+	Para a resolução do problema de autovalor, procura-se uma forma de se resolver a forma simplificada da Equação (40), ou seja, a Equação (45):
+		
+	\begin{equation}
+	(w\textbf{A}^{\textbf{'}} 
+	+ \textbf{B}^{\textbf{'}}){\textbf{w}} = \textbf{0}
+	\end{equation}
+	
+	No ponto atual, busca-se formas de resolver essa problema de autovalor. Dentre algumas das possibilidades, estão o GMRES (Generalized minimal residual method), Métodos Jacobi-Davidson, ou algum outro método analítico.
+	
+	
+	
+	
+	
+	
+	
+	
+	\pagebreak
+	\section{Referências}
+	
+	[1] Loeffler, C. F., Galimberti, R., Barcelos, H. M. 2018. A self-regularized scheme for solving Helmholtz problems using the boundary element direct integration technique with radial basis functions;
+	
+	
+	[2] Loeffler, C. F., Cruz, A. L., Bulcão, A. 2015. Direct Use of Radial Basis Interpolation Functions for Modelling Source Terms with the Boundary Element Method. Engineering Analysis with Boundary Elements, vol. 50, pp. 97-108. 
+
+
+	[3] Loeffler, C. F., Barcelos, H. M., Mansur, W.J., Bulcão, A. 2015. Solving Helmholtz Problems with the Boundary Element Method Using Direct Radial Basis Function Interpolation. Engineering Analysis with Boundary Elements, Vol. 61, pp. 218-225.
+	
+	
+	[4] Loeffler, C. F., Zamprogno, L., Mansur, W. J., Bulcão, A. 2017. Performance of Compact Radial Basis Functions in the Direct Interpolation Boundary Element Method for Solving Potential Problems. Computational Methods and Engineering and Sciences, Vol. 113, 3, pp. 387-412.
+	
+	
+	[5] Loeffler, C. F., Pereira, P. V. F., Lara, L. O. C., Mansur, W. J., 2017. Comparison between the Formulation of the Boundary Element Method that uses Fundamental Solution Dependent of Frequency and the Direct Radial Basis Boundary Element Formulation for Solution of Helmholtz Problems, Eng. Analysis Boundary Elements, 79, pp. 81-87.
+	
+	
+	[6] Loeffler, C.F, Mansur, WJ, 2017. A Regularization Scheme Applied to the Direct Interpolation Boundary Element Technique with Radial Basis Functions for Solving Eigenvalue Problem. Engineering Analysis with Boundary Elements, vol. 74, pp. 14-18.
+	
+	[7] Przemieniecki, J.S., 1985. Theory of matrix structural analysis. Courier Corporation.
+	
+\end{document}

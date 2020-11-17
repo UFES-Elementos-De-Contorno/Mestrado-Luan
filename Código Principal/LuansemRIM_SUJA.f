@@ -34,10 +34,10 @@ C      PROBLEMA DE RESPOSTA COM SOL ANALITICA IMPLEMENTADA
 !*************************************************************************************************
 C      !DIGITE A MALHA QUE SERÁ UTILIZADA														  !*
 C	 !NOME DA MATRIZ UTILIZADA 	         !PROBLEMA ENCONTRADO								  !*
-C      ARQENT = '3249ENG.TXT'		         !													  !*
+X      ARQENT = '3249ENG.TXT'		         !													  !*
 C      ARQENT = '3249MEM.TXT'		         !													  !*
 C      ARQENT = '3264.TXT'		         !													  !*
-C      ARQENT = '3264ENG.TXT'		         !													  !*
+X      ARQENT = '3264ENG.TXT'		         !													  !*
 C      ARQENT = '3264MEM.TXT'			     !													  !*
 C      ARQENT = '3281ENG.TXT'			     !													  !*
 C      ARQENT = '3281MEM.TXT'			     !													  !*
@@ -49,14 +49,18 @@ C      ARQENT = '16480ENG.TXT'		     !													  !*
 C      ARQENT = '84144.TXT'			     !													  !*
 C      ARQENT = '84144ENG.TXT'		     !													  !*
 C      ARQENT = '84144MEM.TXT'			 !                                                    !*							
-C      ARQENT = '160484.TXT'               !ERRO DE MATRIZ SINGULAR							  !*
-C      ARQENT = '160484MEMB.TXT'           !NAO FINALIZA.										  !*
+      ARQENT = '160484.TXT'               !ERRO DE MATRIZ SINGULAR							  !*
+C      ARQENT = '160484ENG.TXT'            !													  !*
+C      ARQENT = '160484MEMB.TXT'           !													  !*
 C      ARQENT = '164144ENG.TXT'            !													  !*
 C      ARQENT = '164144MEM.TXT'	         !													  !*
 C      ARQENT = '164484ENG.TXT'            !ERRO DE MATRIZ SINGULAR							  !*
-      ARQENT = '164484MEM.TXT'	         !													  !*
+C      ARQENT = '164484MEM.TXT'	         !													  !*
 C      ARQENT = '320324.TXT'		         !													  !*
+C      ARQENT = '320324MEM.TXT'		     !													  !*
 C      ARQENT = '320576.TXT'               !ERRO DE MATRIZ SINGULAR							  !* 	
+C      ARQENT = '320576ENG.TXT'            !													  !* 	
+C      ARQENT = '320576MEM.TXT'            !													  !* 	
 !*************************************************************************************************
 
 	!CALCULO DO TEMPO DE PROCESSAMENTO%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	

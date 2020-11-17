@@ -1,0 +1,211 @@
+\documentclass[a4paper,12p]{article}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+\usepackage[a4paper, inner=0.7cm, outer=1.7cm, top=2cm, bottom=2cm, bindingoffset=1.2cm]{geometry}
+\usepackage[portuguese]{babel}
+\usepackage{blindtext}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{index}
+\usepackage{multicol,float,listings}
+\usepackage{setspace}
+\usepackage[super]{nth}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\newcommand{\dd}[1]{\mathrm{d}#1}
+\makeindex
+
+\begin{document}
+
+	\title{\LARGE{\textbf{Resumo da Pesquisa PPGEM}}}
+	\author{Luan Henrique Sirtoli}
+	\date{03 de Abril de 2019}
+	\maketitle
+
+	%\tableofcontents
+
+	%\pagenumbering{roman}
+	\setcounter{page}{1}
+
+	%\chapter{Resumo da Pesquisa PPGEM}
+	\section{Fundamentos da Pesquisa}
+
+	\begin{equation}
+	H_{uq}u - G_{uu}q + \lambda W_{uq}u + \lambda S_{uu}q = \lambda^2 M_{uq}u \label{a}
+	\end{equation}
+	\begin{equation}
+	H_{qq}u - G_{qu}q + \lambda W_{qq}u + \lambda S_{qu}q = \lambda^2 M_{qq}u
+	\end{equation}
+	
+	A partir da equação \ref{a}
+	\begin{equation}
+	(H_{uq}  + \lambda W_{uq})u + (\lambda S_{uu} - G_{uu})q = \lambda^2 M_{uq}u
+	\end{equation}
+	\begin{equation}
+	 (\lambda S_{uu} - G_{uu})q = (\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u
+	\end{equation}
+	\begin{equation}
+	q = (\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})(\lambda S_{uu} - G_{uu})^{-1}u 
+	\end{equation}
+	\begin{equation}
+	q = (\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})(\frac{1}{\lambda} S_{uu}^{-1} - G_{uu}^{-1})u 
+	\end{equation}
+	\begin{equation}
+	Z = (\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})
+	\end{equation}
+	\begin{equation}
+	q = (Zu)(\frac{1}{\lambda} S_{uu}^{-1} - G_{uu}^{-1}) 
+	\end{equation}
+	
+	
+	
+	\begin{equation}
+	H_{qq}u - G_{qu}(Zu)(\frac{1}{\lambda} S_{uu}^{-1} - G_{uu}^{-1}) + \lambda W_{qq}u + \lambda S_{qu}(Zu)(\frac{1}{\lambda} S_{uu}^{-1} - G_{uu}^{-1}) = \lambda^2 M_{qq}u
+	\end{equation}
+	\begin{equation}
+	H_{qq}u 
+	- (\frac{1}{\lambda})G_{qu}S_{uu}^{-1}(Zu)
+	+ G_{qu}G_{uu}^{-1}(Zu)
+	+ \lambda W_{qq}u 
+	+ S_{qu}S_{uu}^{-1}(Zu) 
+	- \lambda S_{qu}G_{uu}^{-1}(Zu) 
+	= \lambda^2 M_{qq}u
+	\end{equation}
+	\begin{equation}
+	H_{qq}u 
+	+ \lambda W_{qq}u 
+	- (\frac{1}{\lambda})G_{qu}S_{uu}^{-1}(Zu)
+	+ G_{qu}G_{uu}^{-1}(Zu)
+	+ S_{qu}S_{uu}^{-1}(Zu) 
+	- \lambda S_{qu}G_{uu}^{-1}(Zu) 
+	= \lambda^2 M_{qq}u
+	\end{equation}
+	\begin{equation}
+	H_{qq}u 
+	+ \lambda W_{qq}u 
+	+( - (\frac{1}{\lambda})G_{qu}S_{uu}^{-1}
+	+ G_{qu}G_{uu}^{-1}
+	+ S_{qu}S_{uu}^{-1}
+	- \lambda S_{qu}G_{uu}^{-1})(Zu) 
+	= \lambda^2 M_{qq}u
+	\end{equation}
+	\begin{equation}
+	H_{qq}u 
+	+ \lambda W_{qq}u 
+	+( - (\frac{1}{\lambda})G_{qu}S_{uu}^{-1}
+	+ G_{qu}G_{uu}^{-1}
+	+ S_{qu}S_{uu}^{-1}
+	- \lambda S_{qu}G_{uu}^{-1})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u 
+	= \lambda^2 M_{qq}u
+	\end{equation}
+	\begin{equation}
+	\begin{split}
+	H_{qq}u 
+	+ \lambda W_{qq}u 
+	- (\frac{1}{\lambda}G_{qu}S_{uu}^{-1})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u
+	+ (G_{qu}G_{uu}^{-1})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u \\
+	+ (S_{qu}S_{uu}^{-1})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u
+	- (\lambda S_{qu}G_{uu}^{-1})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u 
+	= \lambda^2 M_{qq}u
+	\end{split}
+	\end{equation}
+	
+	Assumindo:
+	\begin{equation}
+	G_{qu}S_{uu}^{-1} = V_{qu}
+	\end{equation}
+	\begin{equation}
+	G_{qu}G_{uu}^{-1} = T_{qu}
+	\end{equation}
+	\begin{equation}
+	S_{qu}S_{uu}^{-1} = X_{qu}
+	\end{equation}
+	\begin{equation}
+	S_{qu}G_{uu}^{-1} = Y_{qu}
+	\end{equation}
+	
+	
+	\begin{equation}
+	\begin{split}
+	H_{qq}u 
+	+ \lambda W_{qq}u 
+	- (\frac{1}{\lambda}V_{qu})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u
+	+ (T_{qu})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u \\
+	+ (X_{qu})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u
+	- (\lambda Y_{qu})
+	(\lambda^2 M_{uq} - H_{uq}  - \lambda W_{uq})u 
+	= \lambda^2 M_{qq}u
+	\end{split}
+	\end{equation}
+	\begin{equation}
+	\begin{split}
+	H_{qq}u 
+	+ \lambda W_{qq}u 
+	- (\frac{1}{\lambda})
+	(\lambda^2 V_{qu}M_{uq} - V_{qu}H_{uq}  - \lambda V_{qu}W_{uq})u
+	+ (\lambda^2 T_{qu}M_{uq} - T_{qu}H_{uq}  - \lambda T_{qu}W_{uq})u \\
+	+ (\lambda^2 X_{qu}M_{uq} - X_{qu}H_{uq}  - \lambda X_{qu}W_{uq})u
+	- (\lambda )
+	(\lambda^2 Y_{qu}M_{uq} - Y_{qu}H_{uq}  - \lambda Y_{qu}W_{uq})u 
+	= \lambda^2 M_{qq}u
+	\end{split}
+	\end{equation}
+	
+	\begin{gather}
+	\frac{u}{\lambda} (V_{qu}H_{uq})  \\
+	+ u(H_{qq} + V_{qu}W_{uq} - T_{qu}H_{uq} - X_{qu}H_{uq}) \\
+	+ \lambda u (W_{qq} - V_{qu}M_{uq} - T_{qu}W_{uq} - X_{qu}W_{uq} +  Y_{qu}H_{uq})\\
+	+ \lambda^2 u (T_{qu}M_{uq} + X_{qu}M_{uq} + Y_{qu}W_{uq} - M_{qq})\\
+	- \lambda^3 u (Y_{qu}M_{uq})
+	= 0
+	\end{gather}
+	
+	\begin{equation}
+	\begin{split}
+	u(V_{qu}H_{uq})
+	+ \lambda u (H_{qq} + V_{qu}W_{uq} - T_{qu}H_{uq} - X_{qu}H_{uq}) \\
+	+ \lambda^2 u (W_{qq} - V_{qu}M_{uq} - T_{qu}W_{uq} - X_{qu}W_{uq} +  Y_{qu}H_{uq}) \\
+	+ \lambda^3 u (T_{qu}M_{uq} + X_{qu}M_{uq} + Y_{qu}W_{uq} - M_{qq})
+	- \lambda^4 u (Y_{qu}M_{uq})
+	= 0
+	\end{split}
+	\end{equation}
+	
+	\begin{gather}
+	A = V_{qu}H_{uq}  \\
+	B = H_{qq} + V_{qu}W_{uq} - T_{qu}H_{uq} - X_{qu}H_{uq} \\
+	C = W_{qq} - V_{qu}M_{uq} - T_{qu}W_{uq} - X_{qu}W_{uq} +  Y_{qu}H_{uq}\\
+	D = T_{qu}M_{uq} + X_{qu}M_{uq} + Y_{qu}W_{uq} - M_{qq}\\
+	E = Y_{qu}M_{uq}
+	\end{gather}
+	
+	\begin{equation}
+	\begin{split}
+	u(G_{qu}S_{uu}^{-1}H_{uq})
+	+ \lambda u (H_{qq} + G_{qu}S_{uu}^{-1}W_{uq} - G_{qu}G_{uu}^{-1}H_{uq} - S_{qu}S_{uu}^{-1}H_{uq})\\
+	+ \lambda^2 u (W_{qq} - G_{qu}S_{uu}^{-1}M_{uq} - G_{qu}G_{uu}^{-1}W_{uq} - S_{qu}S_{uu}^{-1}W_{uq} +  S_{qu}G_{uu}^{-1}H_{uq}) \\
+	+ \lambda^3 u (G_{qu}G_{uu}^{-1}M_{uq} + S_{qu}S_{uu}^{-1}M_{uq} + S_{qu}G_{uu}^{-1}W_{uq} - M_{qq}) \\
+	- \lambda^4 u (S_{qu}G_{uu}^{-1}M_{uq})
+	= 0
+	\end{split}
+	\end{equation}
+	
+	\begin{equation}
+	uA + \lambda u B + \lambda^2 u C + \lambda^3 u D - \lambda^4 u E = 0
+	\end{equation}
+	
+	
+\end{document}
