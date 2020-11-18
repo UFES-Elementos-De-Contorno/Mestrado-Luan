@@ -1,0 +1,387 @@
+Banca de Defesa de mestrado
+
+  Data: 11/09/2020 - 15:00: 
+
+  Defesa:LUAN HENRIQUE SIRTOLI
+
+  Tema: SOLUÇÃO DE UM PROBLEMA DE AUTOVALOR ESPECIAL GERADO PELA FORMULAÇÃO 
+        DO MÉTODO DOS ELEMENTOS DE CONTORNO COM INTERPOLAÇÃO DIRETA 
+        AUTORREGULARIZADO
+
+  Banca: Carlos Friedrich Loeffler Neto.;
+         André Bulcão; 
+         Luciano de Oliveira Castro Lara; 
+         Hercules de Melo Barcelos; 
+                      
+
+Correções
+
+
+  1 - Visão geral sobre a dissertação:
+
+      * A dissertação precisa ser revisada com muita cautela. 
+        
+      * Observa-se a originalidade do trabalho
+
+      * Deixou claro a contribuição em modelar o problema de autovalor
+        após aplicar o MECID autorregularizado na Equação de Helmholtz.
+
+
+
+
+  2 - Observação geral:
+
+      sugestão
+
+	 Revisar a formatação do trabalho baseado no guia da biblioteca, 
+         além de buscar na internet as normas abnt adicionais.
+
+         Foi bom observar que a formatação da dissertação foi feita com 
+         inspiração em trabalhos anteriores. 
+      
+         Contudo é importante que o trabalho esteja atualizado com
+         normas vigentes para elaboração de trabalhos acadêmicos, "ABNT".
+      
+         Isso tudo
+
+             Melhora a qualidade do trabalho 
+             Trás uma melhor impressão para quem o lê.
+
+                    sejam futuros mestres, doutores ou até mesmo pesquisadores
+                    de universidades e empresas que buscam constantemente in-
+                    soluções no meio acadêmico 
+       
+
+
+
+  3 - Revisão técnica
+
+
+   a) Sobre o tema:
+
+	*Desperta curiosidade
+
+	   Em geral os temas propõem uma solução de um certo problema
+           "através" de um método aplicado
+
+           Neste caso, após aplicar o MECID autorregularizado surge um
+           um desafio para construir e solucionar o problema de autovalor
+
+	   É a solução deste desafio que fica proposta, e foi isto que 
+           despertou a minha curiosidade.
+
+
+	   Ou seja, ao chegar no meio do trabalho, pergunta-se:
+
+                   como colocar o q em função de u no problema de autovalor?
+                  
+
+
+   b) Sobre o Resumo:
+
+        Foi entendido que será resolvido:
+
+        um problema de autovalor de quarta ordem 
+
+        através da aplicação da MECID 
+
+        e utilizando como feramenta a manipulação de matrizes proposta 
+
+        pelo ex engenheiro da força aérea dos EUA, o sr Iânus.
+
+
+
+   c) Abstract:
+      
+        Faltou
+
+
+   
+   c) Senti falta da lista de gráficos entre lista de ilustração e tabela
+
+        É importante destacar a evolução do erro relativo ao longo dos valores 
+  
+        de frequência. isto ajuda na análise dos dados apresentados.
+
+
+
+   *  Lista de figuras *  
+
+
+
+   d) Sobre o índice
+
+        Verificar o alinhamento das seções com o tópico principal.
+
+        Verificar o início de numeração de páginas. 
+
+
+
+   c) Sobre a estrutura/formatação do texto
+
+        verificar os afastamentos dos parágrafos com relação a norma ABNT.
+
+        Melhorar a conexão das equações com o texto através da utilização de
+
+        vírgulas ou pontos finais imediatamente após as equações.
+
+
+
+   d) Objetivo: pág 2
+
+
+      No objetivo também cabe citar o artigo publicado em 2020 
+      (Loeffler, Galimbert e Barcelos). Este apresenta resultados importantes
+      de problemas diretos resolvidos pela MECID autorregularizada
+
+
+      PERGUNTA:
+
+      Assim com os colegas da banca, eu tive um extenso contato com a MECID
+      e achei interessante ver esta evolução para a autorregularização.
+
+      Você saberia diferenciar as 3 propostas do MECID DURANTE A SUA EVOLUÇÃO?
+      OU SEJA
+
+      	i) Proposta inicial do MECID apresentada em 2015 sem regularização 
+         (Loeffler, Mansur, Barcelos e Bulcão).
+
+        ii) A MECID com Regularização.
+
+	iii) A MECID com auto rerularização.
+
+           "Explicação na página 16"
+
+
+       I - Antes tinha-se duas núvens de pontos para evitar a singularidade 
+           (os pontos internos auxiliares e os pontos fonte) 2015
+
+       II - Depois evoluiu-se com a técnica de regularização, onde a 
+            singularidade é eliminada pelo algebrismo matemático. 
+            Neste caso Todo o meu doutorado foi baseado nela, pois até no 
+            problema de Laplace heterogêneo ocorreu o aparecimento de uma 
+            integral de domínio que deveria ser tratada pela MECID
+
+       III - Agora têm-se a autorregularização onde a singularidade é 
+             eliminada através da construção estratégica da 
+             função b*(csi;X)
+
+       Observo agora várias aplicações para a MECID autoregulariza, principal
+       mente em conjunto com a técnica de superposição de domínios para 
+       solucionar problemas com variação da propriedade constitutiva .
+
+
+
+   e) Resumo bibliográfico: pág 4
+
+      Cabe aqui Destacar que foi bem lembrado a questão das limitações do MEC,
+      sendo uma delas a transformação de certas integrais de domínio em 
+      integrais de contorno.
+      
+      Esta limitação inspirou a criação do
+
+      MECDR
+
+      MECID e as suas melhorias que vem sendo apresentadas.
+
+
+
+   f) 2. O MÉTODO DOS ELEMENTOS DE CONTORNO
+
+
+      pg.9 eq 2.6
+
+      		Erro no lado direito.
+
+
+
+      pg 11 eq 2.14
+
+		Observe a notação indicial
+
+
+
+      pg 14 eq 2.26
+
+          O Tr reativo deve fazer referência à equação 2.8
+
+
+
+      pg 15 eq 2.30
+
+            verificar a representação da função u*
+
+            verificar paragráfo, Poisson ou Laplace?
+
+
+
+      pg 19 eq 2.41
+
+            Verificar o índice de csi no lado direito observando o lado 
+            esquerdo.
+
+
+
+   g) 2.3 Formulação MECID autorregularizada aplicada à problemas de
+          Helmholtz
+
+          Sugiro mencionar no texto que G* é primitiva de U* 
+          e fazer o desenvolvimento de G* em apêndice
+
+
+        
+      pg 24 eq 2.65
+
+	    Corrigir a equação
+
+            Pode-se verificar que a autorregularização de U(X)*G*(csi,X) 
+            está definida em r=0 quando csi = X
+
+            Sendo perceptível também na equação 2.85
+
+            
+
+      pg 31 eq 2.88
+
+
+
+
+   h) 3. Formulação MECID autorregularizada para o problema de autovalor
+
+
+
+      pg.35 eq 3.11
+
+            K não deve conter Suu pela equação 3.12
+
+        
+
+      pg.33 eq 3.5 Destaque
+
+            A grande problemática para a cosntrução do problema de auto
+            valor.
+
+
+      pg.36 eq 3.17 
+
+            Verificar se contém labda ao substituí-la na eq 3.18
+
+            Se substituir os termos da 3.17 "sem o lambda" no último termo 
+            da equação 16, encontra-se o último termo da equação 3.19
+
+
+
+      pg. 37 Cabe referência para a eq. 3.22, de onde vem esta hipótese???? 
+             experimentalmente os termos de S são pequenos??
+
+
+
+   i) Proposição de Ianus
+
+
+      Objetiva-se construir o problema de autovalor através da proposta de 
+      Ianus, chegando-se ao problema de quarta ordem.
+
+      
+      pg. 43 entre as equações 3.47 e 3.48 . 
+
+          Mudar a váriável w
+
+             inserir a proposta de solução de w(X,t) = v(x)e^lambda.t
+
+
+       pg. 44  eq. 3.49
+
+           penalidade de utilizar esta forma de solução apresentada
+           por Janusz: as matrizes A e B dobram o tamanho do sistema 
+           matricial final
+
+
+
+
+    j) 3.4 excelente analogia
+
+        OBS:
+        AO TRATAR A EQ 3.38 PELA ANALOGIA DE JANUSZ, 
+        é interessante trocar a letra u na pg 44 eq.. 3.50 
+        por outra que dependa do tempo e espaço.
+
+
+        OBS: pg. 45 a penalidade anterior recai agora, aumentando o sistema 
+             linear em 4 vezes (eq.54 pg.45)
+
+
+        pag. 49 eq 3.67 
+
+             Qual o critério para selecionar as matrizes adicionais ao sistema??
+             Poderiam ser outras Matrizes ???
+
+             Tem relação à ideia de aumentar a presença da rigidez e massa do 
+             sistema?
+
+
+
+
+   k) 4. Simulações
+
+      i) Orientações gerais.
+
+        i.i)  Indicar quais são as frequências analíticas que estão sendo 
+            analisadas através dos índices m e n
+
+        i.ii) Gerar gráfico erro relativo X frequências para entender melhor 
+            a propagação dos erros
+
+
+
+      ii) Problema 2: pg 53 eq 4.2
+
+                     erro: índices devem estar ao quadrado.
+                     não influenciou na resposta.
+
+
+           Problema 2: verificar a raiz quadrada do ultimo valor numerico 
+                      encontrado para 
+                      a malha mais refinada : raiz(134,2057) = 11,5847 
+                      e observar a raiz quadrada 
+                           do setimo analítico raiz(128,3032) = 11,3271   
+
+                                  = erro relativo = 2,27%
+
+
+       iii) Problema 2: no caso do MECID sem regularização a raiz quadrada do
+            valor numerico encontrado foi de = 11,3313, 
+            gerando um erro relativo = 0,03697%
+
+            Contudo em algum momento do trabalho foi dito que o método é bom 
+            para altas frequências, então cabe verificar mais autovalores 
+            para este problema.
+
+
+
+   L) 5. conclusão
+
+         Cabe citar a dissertação do Ramon no primeiro parágrafo, 
+         evidenciando o bom resultado do autorregularizado em problema 
+         de resposta
+
+
+       
+   M) 6. Referências:
+
+         pág 57
+
+          Atentar para a padronização das referências em acordo com a ABNT
+
+          Verificar a correções destacadas.
+
+   
+
+
+
+
+
+
+
+
+
